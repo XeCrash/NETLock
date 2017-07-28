@@ -8,6 +8,21 @@ using System.Diagnostics;
 
 namespace NETLock
 {
+
+    /*
+        =Social Media/Contact Inforamtion & Orginal Github link!=
+        - Check out orginal code at @https://github.com/XeCrash/NETLock
+        - Twitter: @XeCrashDev
+        - Discord: XeCrash#1389
+
+
+        TODO:
+        - Add Registration Method
+        - Refactor Messy Code
+        - Testin on live applications
+     */
+
+
     public class LoginResponse
     {
         /// <summary>
