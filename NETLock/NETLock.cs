@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
-using MySql.Data;
+using MySql.Data.MySqlClient;
 
 namespace NETLock
 {
@@ -16,9 +16,17 @@ namespace NETLock
         /// <param name="password">(string) password</param>
         public bool Login(string username, string password)
         {
+            LoginMethods lm = new LoginMethods();
             try
-            {
-                return true;
+            {               
+                if(lm.UserExists())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch(Exception ex)
             {
@@ -47,7 +55,22 @@ namespace NETLock
 
     internal class LoginMethods
     {
+        public bool OpenConnection()
+        {
+            try
+            {
 
+            }
+            catch(MySqlException ex)
+            {
+                return false;
+            }
+        }
+
+        public bool UserExists()
+        {
+
+        }
     }
 
     internal class RegisterMethods
