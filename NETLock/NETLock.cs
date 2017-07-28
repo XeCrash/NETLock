@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using MySql.Data.MySqlClient;
+using System.Diagnostics;
 
 namespace NETLock
 {
@@ -17,11 +18,22 @@ namespace NETLock
         public bool Login(string username, string password)
         {
             LoginMethods lm = new LoginMethods();
+            ConnectionMethods cm = new ConnectionMethods();
+            ProtectionMethods pm = new ProtectionMethods();
             try
-            {               
-                if(lm.UserExists())
+            {
+                pm.TamperDetection();
+                if (cm.OpenConnection())
                 {
-                    return true;
+                    if (lm.UserExists(username, password))
+                    {
+                        cm.CloseConnection();
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 else
                 {
@@ -38,11 +50,17 @@ namespace NETLock
 
     public class RegisterResponse
     {
+        /// <summary>
+        /// This is used to allow the user to register.
+        /// </summary>
+        /// <param name="username">(string) username</param>
+        /// <param name="password">(string) password</param>
         public bool Register(string username, string password)
         {
+            ProtectionMethods pm = new ProtectionMethods();
             try
             {
-
+                pm.TamperDetection();
                 return true;
             }
             catch (Exception ex)
@@ -53,23 +71,100 @@ namespace NETLock
         }
     }
 
-    internal class LoginMethods
+    internal class ConnectionMethods
     {
+        public MySqlConnection conn = new MySqlConnection("Server=localhost; Uid=root; Pwd=; Database=mass;");
+        //The Connection string will vary from person to person so make sure to chnage it for your needs.
+        //In this example I will be using xampp to host the database.
         public bool OpenConnection()
         {
             try
             {
-
+                conn.Open();
+                return true;
             }
-            catch(MySqlException ex)
+            catch (MySqlException ex)
             {
+                switch(ex.Number)
+                {
+                    case 1042:
+
+                        break;
+                    case 1045:
+
+                        break;
+                }
                 return false;
             }
         }
 
-        public bool UserExists()
+        public bool CloseConnection()
         {
+            try
+            {
+                conn.Close();
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+        }
+    }
 
+    internal class LoginMethods
+    {
+        ConnectionMethods cm = new ConnectionMethods();
+
+        public bool UserExists(string username, string password)
+        {
+            string GrabHashedPassword = $"SELECT pwd FROM users WHERE uid='{username}'";
+
+            MySqlCommand cmd = new MySqlCommand(GrabHashedPassword, cm.conn);
+            MySqlDataReader reader = cmd.ExecuteReader();
+            if (reader.HasRows)
+            {
+                if (BCrypt.CheckPassword(password, reader.GetString(0)))
+                {
+                    reader.Close();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                reader.Close();
+                return false;
+            }
+        }
+    }
+
+    internal class ProtectionMethods
+    {
+        public void TamperDetection()
+        {
+            try
+            {
+                string programs = "fiddler burp wireshark ettercap dsniff ethereal tcpdump ettercap sandboxie ";
+                string[] xd = programs.Split(' ');
+                for (int i = 0, n = xd.Length; i < n; i++)
+                {
+                    if (Process.GetProcessesByName(xd[i]).Length > 0)
+                    {
+                        foreach (Process p in Process.GetProcessesByName(xd[i]))
+                        {
+                            p.Kill();                            
+                        }
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
     }
 
