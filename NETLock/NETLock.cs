@@ -88,9 +88,9 @@ namespace NETLock
 
     internal class ConnectionMethods
     {
-        public MySqlConnection conn = new MySqlConnection("Server=localhost; Uid=root; Pwd=; Database=mass;");
-        //The Connection string will vary from person to person so make sure to chnage it for your needs.
-        //In this example I will be using xampp to host the database.
+        //The Connection string will vary from person to person so make sure to change it to fit your needs.
+        //In the example below I will be using xampp to host the database on my local machine.
+        public MySqlConnection conn = new MySqlConnection("Server=localhost; Uid=root; Pwd=; Database=mass;");      
         public bool OpenConnection()
         {
             try
