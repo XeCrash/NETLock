@@ -10,6 +10,7 @@ namespace NETLock
 {
 
     /*
+        ++++++++++++++++++++++++++++ NETLock +++++++++++++++++++++++++++
         =Social Media/Contact Inforamtion & Orginal Github link!=
         - Check out orginal code at https://github.com/XeCrash/NETLock
         - Twitter: @XeCrashDev
@@ -17,11 +18,8 @@ namespace NETLock
 
 
         TODO:
-        - Add Registration Method
         - Refactor Messy Code
-        - Testin on live applications
      */
-
 
     public class LoginResponse
     {
@@ -47,17 +45,19 @@ namespace NETLock
                     }
                     else
                     {
+                        cm.CloseConnection();
                         return false;
                     }
                 }
                 else
                 {
+                    cm.CloseConnection();
                     return false;
                 }
             }
             catch(Exception ex)
             {
-                
+                cm.CloseConnection();
                 return false;
             }
         }
@@ -73,14 +73,42 @@ namespace NETLock
         public bool Register(string username, string password)
         {
             ProtectionMethods pm = new ProtectionMethods();
+            RegisterMethods rm = new RegisterMethods();
+            ConnectionMethods cm = new ConnectionMethods();
             try
             {
                 pm.TamperDetection();
-                return true;
+                var hashedpassword = Encryption.HashPassword(password, Encryption.GenerateSalt(12));
+                if (cm.OpenConnection())
+                {
+                    if (!rm.UserExists(username, password))
+                    {
+                        if (rm.InsertedUser(username, hashedpassword))
+                        {
+                            cm.CloseConnection();
+                            return true;
+                        }
+                        else
+                        {
+                            cm.CloseConnection();
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("User already Exists!");
+                        cm.CloseConnection();
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch (Exception ex)
             {
-
+                cm.CloseConnection();
                 return false;
             }
         }
@@ -96,6 +124,7 @@ namespace NETLock
             try
             {
                 conn.Open();
+                Console.WriteLine("Connection to Database has been established!");
                 return true;
             }
             catch (MySqlException ex)
@@ -132,26 +161,38 @@ namespace NETLock
         ConnectionMethods cm = new ConnectionMethods();
 
         public bool UserExists(string username, string password)
-        {
-            string GrabHashedPassword = $"SELECT pwd FROM users WHERE uid='{username}'";
-
-            MySqlCommand cmd = new MySqlCommand(GrabHashedPassword, cm.conn);
-            MySqlDataReader reader = cmd.ExecuteReader();
-            if (reader.HasRows)
+        {           
+            if (cm.OpenConnection())                
             {
-                if (BCrypt.CheckPassword(password, reader.GetString(0)))
+                string GrabHashedPassword = $"SELECT pwd FROM users WHERE uid='{username}'";
+                MySqlCommand cmd = new MySqlCommand(GrabHashedPassword, cm.conn);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                reader.Read();
+                if (reader.HasRows)
                 {
-                    reader.Close();
-                    return true;
+                    if (Encryption.CheckPassword(password, reader.GetString(0)))
+                    {
+                        reader.Close();
+                        cm.CloseConnection();
+                        return true;
+                    }
+                    else
+                    {
+                        reader.Close();
+                        cm.CloseConnection();
+                        return false;
+                    }
                 }
                 else
                 {
+                    reader.Close();
+                    cm.CloseConnection();
                     return false;
                 }
             }
             else
             {
-                reader.Close();
+                cm.CloseConnection();
                 return false;
             }
         }
@@ -185,10 +226,80 @@ namespace NETLock
 
     internal class RegisterMethods
     {
+        ConnectionMethods cm = new ConnectionMethods();
+        public bool InsertedUser(string username, string password)
+        {
+            Console.WriteLine("Insert User Method started");
+            try
+            {
+                if (cm.OpenConnection())
+                {
+                    string sql = $"INSERT INTO users(uid, pwd) VALUES('{username}', '{password}')";
+                    MySqlCommand cmd = new MySqlCommand(sql, cm.conn);
+                    cmd.ExecuteNonQuery();
+                    Console.WriteLine("Inserted User Method finished");
+                    cm.CloseConnection();
+                    return true;
+                }
+                else
+                {
+                    cm.CloseConnection();
+                    return false;
+                }
+            }
+            catch(Exception ex)
+            {
+                cm.CloseConnection();
+                return false;
+            }
+        }
 
+        public bool UserExists(string username, string password)
+        {
+            try
+            {
+                Console.WriteLine("User Exists");
+                if (cm.OpenConnection())
+                {
+                    string GrabHashedPassword = $"SELECT pwd FROM users WHERE uid='{username}'";
+                    MySqlCommand cmd = new MySqlCommand(GrabHashedPassword, cm.conn);
+                    MySqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        if (Encryption.CheckPassword(password, reader.GetString(0)))
+                        {
+                            reader.Close();
+                            cm.CloseConnection();
+                            return true;
+                        }
+                        else
+                        {
+                            cm.CloseConnection();
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        reader.Close();
+                        cm.CloseConnection();
+                        return false;
+                    }
+                }
+                else
+                {
+                    cm.CloseConnection();
+                    return false;
+                }
+            }
+            catch(Exception ex)
+            {
+                cm.CloseConnection();
+                return false;
+            }
+        }
     }
 
-    internal class BCrypt
+    internal class Encryption
     {
         private const int GENSALT_DEFAULT_LOG2_ROUNDS = 10;
         private const int BCRYPT_SALT_LEN = 16;
@@ -808,7 +919,7 @@ namespace NETLock
         /// </summary>
         /// <param name="password">The password to hash.</param>
         /// <param name="salt">The salt to hash with (perhaps generated
-        /// using <c>BCrypt.GenerateSalt</c>).</param>
+        /// using <c>Encryption.GenerateSalt</c>).</param>
         /// <returns>The hashed password.</returns>
         public static string HashPassword(string password, string salt)
         {
@@ -855,7 +966,7 @@ namespace NETLock
             byte[] saltBytes = DecodeBase64(salt.Substring(offset + 3, 22),
                                             BCRYPT_SALT_LEN);
 
-            BCrypt bcrypt = new BCrypt();
+            Encryption bcrypt = new Encryption();
 
             byte[] hashed = bcrypt.CryptRaw(passwordBytes, saltBytes, rounds);
 

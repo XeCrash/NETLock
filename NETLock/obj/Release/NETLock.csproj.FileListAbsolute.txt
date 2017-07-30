@@ -5,3 +5,9 @@ c:\users\avery\onedrive\documents\visual studio 2017\Projects\NETLock\NETLock\bi
 c:\users\avery\onedrive\documents\visual studio 2017\Projects\NETLock\NETLock\obj\Release\NETLock.csprojResolveAssemblyReference.cache
 c:\users\avery\onedrive\documents\visual studio 2017\Projects\NETLock\NETLock\obj\Release\NETLock.dll
 c:\users\avery\onedrive\documents\visual studio 2017\Projects\NETLock\NETLock\obj\Release\NETLock.pdb
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\NETLock\bin\Release\NETLock.dll
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\NETLock\bin\Release\NETLock.pdb
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\NETLock\bin\Release\MySql.Data.dll
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\NETLock\bin\Release\MySql.Data.xml
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\NETLock\obj\Release\NETLock.dll
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\NETLock\obj\Release\NETLock.pdb
