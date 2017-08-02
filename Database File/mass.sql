@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 28, 2017 at 07:17 PM
+-- Generation Time: Aug 02, 2017 at 05:48 AM
 -- Server version: 10.1.24-MariaDB
 -- PHP Version: 7.1.6
 
@@ -25,18 +25,38 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `authentication`
+--
+
+CREATE TABLE `authentication` (
+  `id` int(11) NOT NULL,
+  `token` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `uid` varchar(255) NOT NULL,
-  `pwd` varchar(255) NOT NULL
+  `pwd` varchar(255) NOT NULL,
+  `registered` varchar(255) NOT NULL,
+  `lastlogin` varchar(255) NOT NULL,
+  `online` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `authentication`
+--
+ALTER TABLE `authentication`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users`
@@ -48,6 +68,11 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for dumped tables
 --
 
+--
+-- AUTO_INCREMENT for table `authentication`
+--
+ALTER TABLE `authentication`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `users`
 --
