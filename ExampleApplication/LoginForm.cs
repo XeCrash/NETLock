@@ -21,7 +21,16 @@ namespace ExampleApplication
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            AuthResponse response = new AuthResponse();
+            if (response.AuthenticateProgram("xwnTg4wdeqFUunQV#wl8OT6$r"))
+            {
+                MessageBox.Show("Program has been authenticated!");
+            }
+            else
+            {
+                MessageBox.Show("Mismatch in program authentication tokens has been noticed. Program will now close for security purposes.");
+                Application.Exit();
+            }
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -34,7 +43,8 @@ namespace ExampleApplication
             LoginResponse login = new LoginResponse();
             if(login.Login(textBox1.Text, textBox2.Text))
             {
-                MessageBox.Show("Login Was successful!");
+                Hide();
+                new MainForm().Show();                
             }
             else
             {

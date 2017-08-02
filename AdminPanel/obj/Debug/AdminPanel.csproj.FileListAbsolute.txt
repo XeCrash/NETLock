@@ -1,0 +1,10 @@
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\AdminPanel\bin\Debug\AdminPanel.exe.config
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\AdminPanel\bin\Debug\AdminPanel.exe
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\AdminPanel\bin\Debug\AdminPanel.pdb
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\AdminPanel\bin\Debug\MySql.Data.dll
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\AdminPanel\bin\Debug\MySql.Data.xml
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\AdminPanel\obj\Debug\AdminPanel.Form1.resources
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\AdminPanel\obj\Debug\AdminPanel.Properties.Resources.resources
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\AdminPanel\obj\Debug\AdminPanel.csproj.GenerateResource.Cache
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\AdminPanel\obj\Debug\AdminPanel.exe
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\AdminPanel\obj\Debug\AdminPanel.pdb

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NETLock", "NETLock\NETLock.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApplication", "ExampleApplication\ExampleApplication.csproj", "{CE9FD2AE-65F6-4DC5-876C-9DFE47443941}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminPanel", "AdminPanel\AdminPanel.csproj", "{3E8FF649-F384-48FA-85D2-3A97A9E53428}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{CE9FD2AE-65F6-4DC5-876C-9DFE47443941}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE9FD2AE-65F6-4DC5-876C-9DFE47443941}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE9FD2AE-65F6-4DC5-876C-9DFE47443941}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E8FF649-F384-48FA-85D2-3A97A9E53428}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E8FF649-F384-48FA-85D2-3A97A9E53428}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E8FF649-F384-48FA-85D2-3A97A9E53428}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E8FF649-F384-48FA-85D2-3A97A9E53428}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

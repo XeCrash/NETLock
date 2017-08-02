@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 using NETLock;
+using NETLock;
 
 namespace ExampleApplication
 {
@@ -38,7 +39,7 @@ namespace ExampleApplication
         private void button1_Click(object sender, EventArgs e)
         {
             RegisterResponse register = new RegisterResponse();
-            if(register.Register(textBox1.Text, textBox2.Text))
+            if (register.Register(textBox1.Text, textBox2.Text))
             {
                 MessageBox.Show("Registration was successful!");
             }

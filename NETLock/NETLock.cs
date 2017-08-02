@@ -5,12 +5,14 @@ using System.Security.Cryptography;
 using System.Text;
 using MySql.Data.MySqlClient;
 using System.Diagnostics;
+using System.Linq;
 
 namespace NETLock
 {
 
     /*
-        ++++++++++++++++++++++++++++ NETLock +++++++++++++++++++++++++++
+                               Version 2.0.0.0
+        ++++++++++++++++++++++++++ NETLock +++++++++++++++++++++++++++
         =Social Media/Contact Inforamtion & Orginal Github link!=
         - Check out orginal code at https://github.com/XeCrash/NETLock
         - Twitter: @XeCrashDev
@@ -18,11 +20,16 @@ namespace NETLock
 
 
         TODO:
-        - Refactor Messy Code
+        - Refactor Messy Code its pretty messy but it works!
+
+        HELP:
+        if you want to look at the example application that would be the best way to figure it out!
+        ill be making a tutorial video on how to set it up soon!
      */
 
     public class LoginResponse
     {
+        AuthMethods am = new AuthMethods();
         /// <summary>
         /// This is used to allow the user to login by checking the database for a existing user.
         /// </summary>
@@ -36,12 +43,29 @@ namespace NETLock
             try
             {
                 pm.TamperDetection();
-                if (cm.OpenConnection())
+                if (Properties.Settings.Default.Authenticated == true)
                 {
-                    if (lm.UserExists(username, password))
+                    if (cm.OpenConnection())
                     {
-                        cm.CloseConnection();
-                        return true;
+                        if (lm.UserExists(username, password))
+                        {
+                            if (lm.UpdateOnlineStatus(username))
+                            {
+                                Properties.Settings.Default.username = username;
+                                cm.CloseConnection();
+                                return true;
+                            }
+                            else
+                            {
+                                cm.CloseConnection();
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            cm.CloseConnection();
+                            return false;
+                        }
                     }
                     else
                     {
@@ -55,7 +79,7 @@ namespace NETLock
                     return false;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 cm.CloseConnection();
                 return false;
@@ -63,40 +87,27 @@ namespace NETLock
         }
     }
 
-    public class RegisterResponse
+    public class AuthResponse
     {
-        /// <summary>
-        /// This is used to allow the user to register.
-        /// </summary>
-        /// <param name="username">(string) username</param>
-        /// <param name="password">(string) password</param>
-        public bool Register(string username, string password)
+        AuthMethods am = new AuthMethods();
+        ConnectionMethods cm = new ConnectionMethods();
+        ProtectionMethods pm = new ProtectionMethods();
+
+        public bool AuthenticateProgram(string Token)
         {
-            ProtectionMethods pm = new ProtectionMethods();
-            RegisterMethods rm = new RegisterMethods();
-            ConnectionMethods cm = new ConnectionMethods();
             try
             {
                 pm.TamperDetection();
-                var hashedpassword = Encryption.HashPassword(password, Encryption.GenerateSalt(12));
                 if (cm.OpenConnection())
                 {
-                    if (!rm.UserExists(username, password))
+                    if (am.TokenMatching(Token))
                     {
-                        if (rm.InsertedUser(username, hashedpassword))
-                        {
-                            cm.CloseConnection();
-                            return true;
-                        }
-                        else
-                        {
-                            cm.CloseConnection();
-                            return false;
-                        }
+                        cm.CloseConnection();
+                        Properties.Settings.Default.Authenticated = true;
+                        return true;
                     }
                     else
                     {
-                        Console.WriteLine("User already Exists!");
                         cm.CloseConnection();
                         return false;
                     }
@@ -114,22 +125,158 @@ namespace NETLock
         }
     }
 
+    public class RegisterResponse
+    {
+        AuthMethods am = new AuthMethods();
+        /// <summary>
+        /// This is used to allow the user to register.
+        /// </summary>
+        /// <param name="username">(string) username</param>
+        /// <param name="password">(string) password</param>
+        public bool Register(string username, string password)
+        {
+            ProtectionMethods pm = new ProtectionMethods();
+            RegisterMethods rm = new RegisterMethods();
+            ConnectionMethods cm = new ConnectionMethods();
+            try
+            {
+                pm.TamperDetection();
+                if (Properties.Settings.Default.Authenticated == true)
+                {
+                    var hashedpassword = Encryption.HashPassword(password, Encryption.GenerateSalt(12));
+                    if (cm.OpenConnection())
+                    {
+                        if (!rm.UserExists(username, password))
+                        {
+                            if (rm.InsertedUser(username, hashedpassword))
+                            {
+                                cm.CloseConnection();
+                                return true;
+                            }
+                            else
+                            {
+                                cm.CloseConnection();
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("User already Exists!");
+                            cm.CloseConnection();
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                cm.CloseConnection();
+                return false;
+            }
+        }
+    }
+
+    public class ProgramStatistics
+    {
+        ConnectionMethods cm = new ConnectionMethods();
+        ProtectionMethods pm = new ProtectionMethods();
+        public string UsersOnline()
+        {
+            try
+            {
+                pm.TamperDetection();
+                if (cm.OpenConnection())
+                {
+                    string GetOnlineUsers = $"SELECT online FROM `users` WHERE online='true'";
+                    int Online = 0;
+                    MySqlCommand cmd = new MySqlCommand(GetOnlineUsers, cm.conn);
+                    MySqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        if (reader["online"].ToString() == "true")
+                        {
+                            Online++;
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                    if (!reader.Read())
+                    {
+                        reader.Close();
+                        cm.CloseConnection();
+                        return Convert.ToString(Online);
+                    }
+                    else
+                    {
+                        return "";
+                    }
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            catch (Exception ex)
+            {
+                return "";
+            }
+        }
+    }
+
+    public class LogoutResponse
+    {
+        ConnectionMethods cm = new ConnectionMethods();
+        public bool LogoutUpdate()
+        {
+            try
+            {
+                if (cm.OpenConnection())
+                {
+                    string UpdateStatus = $"UPDATE `users` SET `online` = 'false' WHERE `users`.`uid` = '{Properties.Settings.Default.username}'";
+                    MySqlCommand cmd = new MySqlCommand(UpdateStatus, cm.conn);
+                    cmd.ExecuteNonQuery();
+                    cm.CloseConnection();
+                    return true;
+                }
+                else
+                {
+                    cm.CloseConnection();
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                cm.CloseConnection();
+                return false;
+            }
+        }
+    }
+
     internal class ConnectionMethods
     {
         //The Connection string will vary from person to person so make sure to change it to fit your needs.
         //In the example below I will be using xampp to host the database on my local machine.
-        public MySqlConnection conn = new MySqlConnection("Server=localhost; Uid=root; Pwd=; Database=mass;");      
+        public MySqlConnection conn = new MySqlConnection("Server=localhost; Uid=root; Pwd=; Database=mass;");
         public bool OpenConnection()
         {
             try
             {
                 conn.Open();
-                Console.WriteLine("Connection to Database has been established!");
                 return true;
             }
             catch (MySqlException ex)
             {
-                switch(ex.Number)
+                switch (ex.Number)
                 {
                     case 1042:
 
@@ -149,8 +296,50 @@ namespace NETLock
                 conn.Close();
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                return false;
+            }
+        }
+    }
+
+    internal class AuthMethods
+    {
+        ConnectionMethods cm = new ConnectionMethods();
+        public bool Authenticated;
+
+        public bool TokenMatching(string token)
+        {
+            try
+            {
+                if (cm.OpenConnection())
+                {
+                    string CheckIfTokensMatch = $"SELECT token FROM authentication WHERE token='{token}'";
+                    MySqlCommand cmd = new MySqlCommand(CheckIfTokensMatch, cm.conn);
+                    MySqlDataReader reader = cmd.ExecuteReader();
+                    reader.Read();
+                    if (reader.HasRows)
+                    {
+                        reader.Close();
+                        cm.CloseConnection();
+                        return true;
+                    }
+                    else
+                    {
+                        cm.CloseConnection();
+                        reader.Close();
+                        return false;
+                    }
+                }
+                else
+                {
+                    cm.CloseConnection();
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                cm.CloseConnection();
                 return false;
             }
         }
@@ -161,8 +350,8 @@ namespace NETLock
         ConnectionMethods cm = new ConnectionMethods();
 
         public bool UserExists(string username, string password)
-        {           
-            if (cm.OpenConnection())                
+        {
+            if (cm.OpenConnection())
             {
                 string GrabHashedPassword = $"SELECT pwd FROM users WHERE uid='{username}'";
                 MySqlCommand cmd = new MySqlCommand(GrabHashedPassword, cm.conn);
@@ -174,6 +363,7 @@ namespace NETLock
                     {
                         reader.Close();
                         cm.CloseConnection();
+                        Console.WriteLine("User Exists returns true");
                         return true;
                     }
                     else
@@ -196,48 +386,16 @@ namespace NETLock
                 return false;
             }
         }
-    }
 
-    internal class ProtectionMethods
-    {
-        public void TamperDetection()
+        public bool UpdateOnlineStatus(string username)
         {
-            try
-            {
-                string programs = "fiddler burp wireshark ettercap dsniff ethereal tcpdump ettercap sandboxie ";
-                string[] xd = programs.Split(' ');
-                for (int i = 0, n = xd.Length; i < n; i++)
-                {
-                    if (Process.GetProcessesByName(xd[i]).Length > 0)
-                    {
-                        foreach (Process p in Process.GetProcessesByName(xd[i]))
-                        {
-                            p.Kill();                            
-                        }
-                    }
-                }
-            }
-            catch(Exception ex)
-            {
-
-            }
-        }
-    }
-
-    internal class RegisterMethods
-    {
-        ConnectionMethods cm = new ConnectionMethods();
-        public bool InsertedUser(string username, string password)
-        {
-            Console.WriteLine("Insert User Method started");
             try
             {
                 if (cm.OpenConnection())
                 {
-                    string sql = $"INSERT INTO users(uid, pwd) VALUES('{username}', '{password}')";
-                    MySqlCommand cmd = new MySqlCommand(sql, cm.conn);
+                    string UpdateStatus = $"UPDATE `users` SET `online` = 'true', `lastlogin` = '{datetime()}' WHERE `users`.`uid` = '{username}'";
+                    MySqlCommand cmd = new MySqlCommand(UpdateStatus, cm.conn);
                     cmd.ExecuteNonQuery();
-                    Console.WriteLine("Inserted User Method finished");
                     cm.CloseConnection();
                     return true;
                 }
@@ -254,11 +412,77 @@ namespace NETLock
             }
         }
 
+        public string datetime()
+        {
+            var time = DateTime.UtcNow;
+            return Convert.ToString(time + " UTC");
+        }
+    }
+
+    internal class ProtectionMethods
+    {
+        public void TamperDetection()
+        {
+            try
+            {
+                string programs = "fiddler burp wireshark ettercap dsniff ethereal tcpdump ettercap sandboxie ";
+                string[] xd = programs.Split(' ');
+                for (int i = 0, n = xd.Length; i < n; i++)
+                {
+                    if (Process.GetProcessesByName(xd[i]).Length > 0)
+                    {
+                        foreach (Process p in Process.GetProcessesByName(xd[i]))
+                        {
+                            p.Kill();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+    }
+
+    internal class RegisterMethods
+    {
+        ConnectionMethods cm = new ConnectionMethods();
+        public bool InsertedUser(string username, string password)
+        {
+            try
+            {
+                if (cm.OpenConnection())
+                {
+                    string sql = $"INSERT INTO users(uid, pwd, registered, lastlogin, online) VALUES('{username}', '{password}', '{datetime()}', '00/00/0000 00:00:00 UTC', 'false')";
+                    MySqlCommand cmd = new MySqlCommand(sql, cm.conn);
+                    cmd.ExecuteNonQuery();
+                    cm.CloseConnection();
+                    return true;
+                }
+                else
+                {
+                    cm.CloseConnection();
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                cm.CloseConnection();
+                return false;
+            }
+        }
+
+        public string datetime()
+        {
+            var time = DateTime.UtcNow;
+            return Convert.ToString(time + " UTC");
+        }
+
         public bool UserExists(string username, string password)
         {
             try
             {
-                Console.WriteLine("User Exists");
                 if (cm.OpenConnection())
                 {
                     string GrabHashedPassword = $"SELECT pwd FROM users WHERE uid='{username}'";
@@ -291,7 +515,7 @@ namespace NETLock
                     return false;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 cm.CloseConnection();
                 return false;
@@ -1045,3 +1269,4 @@ namespace NETLock
 
     }
 }
+
