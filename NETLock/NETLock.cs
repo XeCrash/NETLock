@@ -6,18 +6,18 @@ using System.Text;
 using MySql.Data.MySqlClient;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace NETLock
 {
 
     /*
-                               Version 2.0.0.0
+                               Version 2.0.0.2
         ++++++++++++++++++++++++++ NETLock +++++++++++++++++++++++++++
         =Social Media/Contact Inforamtion & Orginal Github link!=
         - Check out orginal code at https://github.com/XeCrash/NETLock
         - Twitter: @XeCrashDev
         - Discord: XeCrash#1389
-
 
         TODO:
         - Refactor Messy Code its pretty messy but it works!
@@ -47,13 +47,21 @@ namespace NETLock
                 {
                     if (cm.OpenConnection())
                     {
-                        if (lm.UserExists(username, password))
+                        if (!lm.isBanned(username))
                         {
-                            if (lm.UpdateOnlineStatus(username))
+                            if (lm.UserExists(username, password))
                             {
-                                Properties.Settings.Default.username = username;
-                                cm.CloseConnection();
-                                return true;
+                                if (lm.UpdateOnlineStatus(username))
+                                {
+                                    Properties.Settings.Default.username = username;
+                                    cm.CloseConnection();
+                                    return true;
+                                }
+                                else
+                                {
+                                    cm.CloseConnection();
+                                    return false;
+                                }
                             }
                             else
                             {
@@ -146,7 +154,7 @@ namespace NETLock
                     var hashedpassword = Encryption.HashPassword(password, Encryption.GenerateSalt(12));
                     if (cm.OpenConnection())
                     {
-                        if (!rm.UserExists(username, password))
+                        if (!rm.UserExists(username))
                         {
                             if (rm.InsertedUser(username, hashedpassword))
                             {
@@ -387,6 +395,47 @@ namespace NETLock
             }
         }
 
+        public bool isBanned(string username)
+        {
+            if (cm.OpenConnection())
+            {
+                string GrabUserBannedStatus = $"SELECT isbanned FROM users WHERE uid='{username}'";
+                MySqlCommand cmd = new MySqlCommand(GrabUserBannedStatus, cm.conn);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                reader.Read();
+                if (reader.HasRows)
+                {
+                    var BoolValue = reader.GetString(0);
+                    if (BoolValue == "true")
+                    {
+                        reader.Close();
+                        cm.CloseConnection();
+                        Console.WriteLine("User is banned");
+                        var Admin = "YOUR NAME HERE";
+                        MessageBox.Show($"{username} has been banned. If you feel this ban was the result of an error please contact the administrator: {Admin} to resolve the issue.");
+                        return true;
+                    }
+                    else
+                    {
+                        reader.Close();
+                        cm.CloseConnection();
+                        return false;
+                    }
+                }
+                else
+                {
+                    reader.Close();
+                    cm.CloseConnection();
+                    return false;
+                }
+            }
+            else
+            {
+                cm.CloseConnection();
+                return false;
+            }
+        }
+
         public bool UpdateOnlineStatus(string username)
         {
             try
@@ -454,7 +503,7 @@ namespace NETLock
             {
                 if (cm.OpenConnection())
                 {
-                    string sql = $"INSERT INTO users(uid, pwd, registered, lastlogin, online) VALUES('{username}', '{password}', '{datetime()}', '00/00/0000 00:00:00 UTC', 'false')";
+                    string sql = $"INSERT INTO users(uid, pwd, registered, lastlogin, online, isbanned) VALUES('{username}', '{password}', '{datetime()}', '00/00/0000 00:00:00 UTC', 'false', 'false')";
                     MySqlCommand cmd = new MySqlCommand(sql, cm.conn);
                     cmd.ExecuteNonQuery();
                     cm.CloseConnection();
@@ -479,28 +528,21 @@ namespace NETLock
             return Convert.ToString(time + " UTC");
         }
 
-        public bool UserExists(string username, string password)
+        public bool UserExists(string username)
         {
             try
             {
                 if (cm.OpenConnection())
                 {
-                    string GrabHashedPassword = $"SELECT pwd FROM users WHERE uid='{username}'";
-                    MySqlCommand cmd = new MySqlCommand(GrabHashedPassword, cm.conn);
+                    string CrossCheckWithExisitingUsers = $"SELECT uid FROM users WHERE uid='{username}'";
+                    MySqlCommand cmd = new MySqlCommand(CrossCheckWithExisitingUsers, cm.conn);
                     MySqlDataReader reader = cmd.ExecuteReader();
                     if (reader.HasRows)
-                    {
-                        if (Encryption.CheckPassword(password, reader.GetString(0)))
-                        {
+                    {                       
                             reader.Close();
                             cm.CloseConnection();
+                            MessageBox.Show($"The username ''{username}'' is already taken. Please choose another username.");
                             return true;
-                        }
-                        else
-                        {
-                            cm.CloseConnection();
-                            return false;
-                        }
                     }
                     else
                     {

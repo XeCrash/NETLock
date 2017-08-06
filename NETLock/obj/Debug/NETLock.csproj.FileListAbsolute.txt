@@ -5,3 +5,4 @@ C:\Users\avery\OneDrive\Documents\GitHub\NETLock\NETLock\bin\Debug\MySql.Data.dl
 C:\Users\avery\OneDrive\Documents\GitHub\NETLock\NETLock\bin\Debug\MySql.Data.xml
 C:\Users\avery\OneDrive\Documents\GitHub\NETLock\NETLock\obj\Debug\NETLock.dll
 C:\Users\avery\OneDrive\Documents\GitHub\NETLock\NETLock\obj\Debug\NETLock.pdb
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\NETLock\obj\Debug\NETLock.csprojResolveAssemblyReference.cache

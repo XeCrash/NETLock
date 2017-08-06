@@ -8,3 +8,4 @@ C:\Users\avery\OneDrive\Documents\GitHub\NETLock\AdminPanel\obj\Debug\AdminPanel
 C:\Users\avery\OneDrive\Documents\GitHub\NETLock\AdminPanel\obj\Debug\AdminPanel.csproj.GenerateResource.Cache
 C:\Users\avery\OneDrive\Documents\GitHub\NETLock\AdminPanel\obj\Debug\AdminPanel.exe
 C:\Users\avery\OneDrive\Documents\GitHub\NETLock\AdminPanel\obj\Debug\AdminPanel.pdb
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\AdminPanel\obj\Debug\AdminPanel.csprojResolveAssemblyReference.cache

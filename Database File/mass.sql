@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 02, 2017 at 05:48 AM
+-- Generation Time: Aug 06, 2017 at 10:25 AM
 -- Server version: 10.1.24-MariaDB
 -- PHP Version: 7.1.6
 
@@ -45,7 +45,8 @@ CREATE TABLE `users` (
   `pwd` varchar(255) NOT NULL,
   `registered` varchar(255) NOT NULL,
   `lastlogin` varchar(255) NOT NULL,
-  `online` varchar(255) NOT NULL
+  `online` varchar(255) NOT NULL,
+  `isbanned` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --

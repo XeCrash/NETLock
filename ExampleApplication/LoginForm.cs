@@ -22,7 +22,7 @@ namespace ExampleApplication
         private void Form1_Load(object sender, EventArgs e)
         {
             AuthResponse response = new AuthResponse();
-            if (response.AuthenticateProgram("xwnTg4wdeqFUunQV#wl8OT6$r"))
+            if (response.AuthenticateProgram("DX=WmOTuBM$Ff$9pXqzj0BkBq"))
             {
                 MessageBox.Show("Program has been authenticated!");
             }
@@ -45,10 +45,6 @@ namespace ExampleApplication
             {
                 Hide();
                 new MainForm().Show();                
-            }
-            else
-            {
-                MessageBox.Show("Login has failed :(");
             }
         }
 
