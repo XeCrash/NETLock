@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using NETLock;
 using System.Diagnostics;
 
-namespace ExampleApplication
+namespace ExampleApplicationPaidRegistration
 {
     public partial class LoginForm : Form
     {
@@ -19,12 +19,12 @@ namespace ExampleApplication
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void LoginForm_Load(object sender, EventArgs e)
         {
             AuthResponse response = new AuthResponse();
             if (response.AuthenticateProgram("O=WzXh0$d#Zr9b28GEQxj5ifC")) //Chnage to match the Auth token you generate to use without error.
             {
-                MessageBox.Show("Program has been authenticated!");
+                
             }
             else
             {
@@ -40,18 +40,18 @@ namespace ExampleApplication
 
         private void button1_Click(object sender, EventArgs e)
         {
-            LoginResponse login = new LoginResponse();
-            if(login.Login(tb_username.Text, tb_password.Text))
+            LoginResponse lr = new LoginResponse();
+            if (lr.Login(tb_username.Text, tb_password.Text))
             {
                 Hide();
-                new MainForm().Show();                
+                new MainForm().Show();
             }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             Hide();
-            new RegistrationForm().Show();
+            new RegisterForm().Show();
         }
     }
 }

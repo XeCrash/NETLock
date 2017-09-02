@@ -16,6 +16,10 @@ namespace AdminPanel
     //The admin panel is for developer use only and should not be give to anyone
     public partial class Form1 : Form
     {
+        public string EM = "Something went wrong :(\n Maybe check your connection string and make sure eveything is correct.";
+        public MessageBoxButtons OK = MessageBoxButtons.OK;
+        public MessageBoxIcon Error = MessageBoxIcon.Error;
+
         ConnectionMethods cm = new ConnectionMethods();
         public Form1()
         {
@@ -76,7 +80,7 @@ namespace AdminPanel
             }
             else
             {
-                MessageBox.Show("Something went wrong :(\n Maybe check your connection string and make sure eveything is correct.");
+                MessageBox.Show(EM, "Error", OK, Error);
             }
         }
 
@@ -88,7 +92,7 @@ namespace AdminPanel
             }
             else
             {
-                MessageBox.Show("Something went wrong :(\n Maybe check your connection string and make sure eveything is correct.");
+                MessageBox.Show(EM, "Error", OK, Error);
             }
         }
 
@@ -103,7 +107,20 @@ namespace AdminPanel
             }
             else
             {
-                MessageBox.Show("Something went wrong :(\n Maybe check your connection string and make sure eveything is correct.");
+                MessageBox.Show(EM, "Error", OK, Error);
+            }
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            LicenseMethods lm = new LicenseMethods();
+            if(lm.GeneratedLicense())
+            {
+                tb_License.Text = Properties.Settings.Default.License;
+            }
+            else
+            {
+                MessageBox.Show("Something went wrong :/");
             }
         }
 
@@ -564,6 +581,45 @@ namespace AdminPanel
                     }
                 }
                 catch (Exception ex)
+                {
+                    cm.CloseConnection();
+                    return false;
+                }
+            }
+        }
+
+        public class LicenseMethods
+        {
+            ConnectionMethods cm = new ConnectionMethods();
+            private string GenSerialKey(int length)
+            {
+                Random random = new Random();
+                const string alphanumeric = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ=!#$1234567890";
+                return new string(Enumerable.Repeat(alphanumeric, length).Select(s => s[random.Next(s.Length)]).ToArray());
+            }
+
+            public bool GeneratedLicense()
+            {
+                Random rand = new Random();
+                var License = GenSerialKey(rand.Next(5, 25));
+                try
+                {
+                    if(cm.OpenConnection())
+                    {
+                        string InsertLicenseToDB = $"INSERT INTO licenses(license, isredeemed) VALUES('{License}', 'false')";
+                        MySqlCommand cmd = new MySqlCommand(InsertLicenseToDB, cm.conn);
+                        cmd.ExecuteNonQuery();
+                        Properties.Settings.Default.License = License;
+                        cm.CloseConnection();
+                        return true;
+                    }
+                    else
+                    {
+                        cm.CloseConnection();
+                        return false;
+                    }
+                }
+                catch(Exception ex)
                 {
                     cm.CloseConnection();
                     return false;
@@ -1427,5 +1483,318 @@ namespace AdminPanel
                 }
             }
         }
+
+        #region License info list View
+        private void button10_Click(object sender, EventArgs e)
+        {
+            if(!GetAllLicenses())
+            {
+                MessageBox.Show(EM, "Error", OK, Error);
+            }
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            if(!GetUnRedeemedLicenses())
+            {
+                MessageBox.Show(EM, "Error", OK, Error);
+            }
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            if (!GetRedeemedLicenses())
+            {
+                MessageBox.Show(EM, "Error", OK, Error);
+            }
+        }
+
+        private void deleteLicenseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(DeletedLicense())
+            {
+                listView2.FocusedItem.Remove();
+            }
+            else
+            {
+                MessageBox.Show(EM, "Error", OK, Error);
+            }
+        }
+
+        private void clearToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            listView2.Items.Clear();
+        }
+
+        private void changeLicenseToRedeemedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(listView2.FocusedItem.SubItems[2].Text == "NOT USED")
+            {
+                if(ChangeToRedeemed())
+                {
+                    listView2.FocusedItem.SubItems[2].Text = "USED";
+                    MessageBox.Show("License was successfully changed to ''Redeemed''!");
+                }
+                else
+                {
+                    MessageBox.Show(EM, "Error", OK, Error);
+                }
+            }
+            else if(listView2.FocusedItem.SubItems[2].Text == "USED")
+            {
+                MessageBox.Show("This license is already redeemed.", "Error", OK, Error);
+            }
+        }
+
+        private void changeLicenseToNotRedeemedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (listView2.FocusedItem.SubItems[2].Text == "USED")
+            {
+                if (ChangeToNotRedeemed())
+                {
+                    listView2.FocusedItem.SubItems[2].Text = "NOT USED";
+                    MessageBox.Show("License was successfully changed to ''Not Redeemed''!");
+                }
+                else
+                {
+                    MessageBox.Show(EM, "Error", OK, Error);
+                }
+            }
+            else if (listView2.FocusedItem.SubItems[2].Text == "NOT USED")
+            {
+                MessageBox.Show("This license is already Not Redeemed.", "Error", OK, Error);
+            }
+        }
+        #endregion
+
+        #region License Info List View Methods
+        private bool GetAllLicenses()
+        {
+            try
+            {
+                if (cm.OpenConnection())
+                {
+                    string GetAllUsers = $"SELECT `uid`, `license`, `isredeemed` FROM licenses";
+                    MySqlCommand cmd = new MySqlCommand(GetAllUsers, cm.conn);
+                    MySqlDataReader reader = cmd.ExecuteReader();
+                    listView2.Items.Clear();
+                    while (reader.Read())
+                    {
+                        var items = new ListViewItem();
+                        string username = reader["uid"].ToString();
+                        string license = reader["license"].ToString();
+                        string redeemed = reader["isredeemed"].ToString();
+                        items.Text = username;
+                        items.SubItems.Add(license);
+                        if (redeemed == "true")
+                        {
+                            items.SubItems.Add(redeemed.Replace("true", "USED"));
+                        }
+                        else if (redeemed == "false")
+                        {
+                            items.SubItems.Add(redeemed.Replace("false", "NOT USED"));
+                        }
+                        listView2.Items.Add(items);
+                    }
+                    if (!reader.Read())
+                    {
+                        reader.Close();
+                        cm.CloseConnection();
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                cm.CloseConnection();
+                return false;
+            }
+        }
+
+        private bool GetRedeemedLicenses()
+        {
+            try
+            {
+                if (cm.OpenConnection())
+                {
+                    string GetAllUsers = $"SELECT `uid`, `license`, `isredeemed` FROM licenses";
+                    MySqlCommand cmd = new MySqlCommand(GetAllUsers, cm.conn);
+                    MySqlDataReader reader = cmd.ExecuteReader();
+                    listView2.Items.Clear();
+                    while (reader.Read())
+                    {
+                        var items = new ListViewItem();
+                        string username = reader["uid"].ToString();
+                        string license = reader["license"].ToString();
+                        string redeemed = reader["isredeemed"].ToString();
+                        if (redeemed == "true")
+                        {
+                            items.Text = username;
+                            items.SubItems.Add(license);
+                            items.SubItems.Add(redeemed.Replace("true", "USED"));
+                            listView2.Items.Add(items);
+                        }
+                        else if (redeemed == "false")
+                        {
+                            
+                        }
+                    }
+                    if (!reader.Read())
+                    {
+                        reader.Close();
+                        cm.CloseConnection();
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                cm.CloseConnection();
+                return false;
+            }
+        }
+
+        private bool GetUnRedeemedLicenses()
+        {
+            try
+            {
+                if (cm.OpenConnection())
+                {
+                    string GetAllUsers = $"SELECT `uid`, `license`, `isredeemed` FROM licenses";
+                    MySqlCommand cmd = new MySqlCommand(GetAllUsers, cm.conn);
+                    MySqlDataReader reader = cmd.ExecuteReader();
+                    listView2.Items.Clear();
+                    while (reader.Read())
+                    {
+                        var items = new ListViewItem();
+                        string username = reader["uid"].ToString();
+                        string license = reader["license"].ToString();
+                        string redeemed = reader["isredeemed"].ToString();
+                        if (redeemed == "true")
+                        {
+                            
+                        }
+                        else if (redeemed == "false")
+                        {
+                            items.Text = username;
+                            items.SubItems.Add(license);
+                            items.SubItems.Add(redeemed.Replace("false", "NOT USED"));
+                            listView2.Items.Add(items);
+                        }
+                    }
+                    if (!reader.Read())
+                    {
+                        reader.Close();
+                        cm.CloseConnection();
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                cm.CloseConnection();
+                return false;
+            }
+        }
+
+        private bool DeletedLicense()
+        {
+            try
+            {
+                if (cm.OpenConnection())
+                {
+                    string ChangeRedeemed = $"DELETE FROM `licenses` WHERE `licenses`.`license` = '{listView2.FocusedItem.SubItems[1].Text}'";
+                    MySqlCommand cmd = new MySqlCommand(ChangeRedeemed, cm.conn);
+                    cmd.ExecuteNonQuery();
+                    cm.CloseConnection();
+                    return true;
+                }
+                else
+                {
+                    cm.CloseConnection();
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                cm.CloseConnection();
+                return false;
+            }
+        }
+
+        private bool ChangeToRedeemed()
+        {
+            try
+            {
+                if (cm.OpenConnection())
+                {
+                    string ChangeRedeemed = $"UPDATE `licenses` SET `isredeemed` = 'true' WHERE `licenses`.`license` = '{listView2.FocusedItem.SubItems[1].Text}'";
+                    MySqlCommand cmd = new MySqlCommand(ChangeRedeemed, cm.conn);
+                    cmd.ExecuteNonQuery();
+                    cm.CloseConnection();
+                    return true;
+                }
+                else
+                {
+                    cm.CloseConnection();
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                cm.CloseConnection();
+                return false;
+            }
+        }
+
+        private bool ChangeToNotRedeemed()
+        {
+            try
+            {
+                if (cm.OpenConnection())
+                {
+                    string ChangeRedeemed = $"UPDATE `licenses` SET `isredeemed` = 'false' WHERE `licenses`.`license` = '{listView2.FocusedItem.SubItems[1].Text}'";
+                    MySqlCommand cmd = new MySqlCommand(ChangeRedeemed, cm.conn);
+                    cmd.ExecuteNonQuery();
+                    cm.CloseConnection();
+                    return true;
+                }
+                else
+                {
+                    cm.CloseConnection();
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                cm.CloseConnection();
+                return false;
+            }
+        }
+        #endregion
     }
 }

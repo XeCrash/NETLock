@@ -28,13 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.button2 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.tb_AuthToken = new System.Windows.Forms.TextBox();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.label3 = new System.Windows.Forms.Label();
+            this.button8 = new System.Windows.Forms.Button();
+            this.tb_License = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.button6 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -50,30 +53,49 @@
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip();
             this.userFunctionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteSelectedUserToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.banSelectedUserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unBanSelectedUserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editUsersUsernameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.clearTheGridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
+            this.button10 = new System.Windows.Forms.Button();
+            this.listView2 = new System.Windows.Forms.ListView();
+            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip();
+            this.licenseFunctionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteLicenseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.changeLicenseToRedeemedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.changeLicenseToNotRedeemedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
+            this.tabPage5.SuspendLayout();
+            this.contextMenuStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Location = new System.Drawing.Point(-3, -1);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(409, 319);
+            this.tabControl1.Size = new System.Drawing.Size(449, 319);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -86,7 +108,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(401, 293);
+            this.tabPage1.Size = new System.Drawing.Size(441, 293);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Program Auth Generation";
             // 
@@ -94,7 +116,7 @@
             // 
             this.button2.Location = new System.Drawing.Point(11, 205);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(375, 40);
+            this.button2.Size = new System.Drawing.Size(424, 40);
             this.button2.TabIndex = 3;
             this.button2.Text = "Grab Auth Token";
             this.button2.UseVisualStyleBackColor = true;
@@ -104,7 +126,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(93, 99);
+            this.label1.Location = new System.Drawing.Point(117, 99);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(203, 25);
             this.label1.TabIndex = 2;
@@ -114,7 +136,7 @@
             // 
             this.button1.Location = new System.Drawing.Point(11, 159);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(375, 40);
+            this.button1.Size = new System.Drawing.Size(424, 40);
             this.button1.TabIndex = 1;
             this.button1.Text = "Generate Auth Token";
             this.button1.UseVisualStyleBackColor = true;
@@ -126,8 +148,50 @@
             this.tb_AuthToken.Location = new System.Drawing.Point(11, 127);
             this.tb_AuthToken.Name = "tb_AuthToken";
             this.tb_AuthToken.ReadOnly = true;
-            this.tb_AuthToken.Size = new System.Drawing.Size(375, 26);
+            this.tb_AuthToken.Size = new System.Drawing.Size(424, 26);
             this.tb_AuthToken.TabIndex = 0;
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.BackColor = System.Drawing.Color.DimGray;
+            this.tabPage4.Controls.Add(this.label3);
+            this.tabPage4.Controls.Add(this.button8);
+            this.tabPage4.Controls.Add(this.tb_License);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(441, 293);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "License Generation";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(120, 82);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(183, 25);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Generated License:";
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(13, 142);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(416, 40);
+            this.button8.TabIndex = 5;
+            this.button8.Text = "Generate License";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
+            // tb_License
+            // 
+            this.tb_License.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tb_License.Location = new System.Drawing.Point(13, 110);
+            this.tb_License.Name = "tb_License";
+            this.tb_License.ReadOnly = true;
+            this.tb_License.Size = new System.Drawing.Size(416, 26);
+            this.tb_License.TabIndex = 4;
             // 
             // tabPage2
             // 
@@ -140,7 +204,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(401, 293);
+            this.tabPage2.Size = new System.Drawing.Size(441, 293);
             this.tabPage2.TabIndex = 2;
             this.tabPage2.Text = "Create A User";
             // 
@@ -149,7 +213,7 @@
             this.button6.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button6.Location = new System.Drawing.Point(11, 142);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(375, 136);
+            this.button6.Size = new System.Drawing.Size(418, 136);
             this.button6.TabIndex = 5;
             this.button6.Text = "Create User";
             this.button6.UseVisualStyleBackColor = true;
@@ -180,7 +244,7 @@
             this.tb_password.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_password.Location = new System.Drawing.Point(11, 101);
             this.tb_password.Name = "tb_password";
-            this.tb_password.Size = new System.Drawing.Size(375, 26);
+            this.tb_password.Size = new System.Drawing.Size(418, 26);
             this.tb_password.TabIndex = 2;
             // 
             // tb_username
@@ -188,7 +252,7 @@
             this.tb_username.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_username.Location = new System.Drawing.Point(11, 34);
             this.tb_username.Name = "tb_username";
-            this.tb_username.Size = new System.Drawing.Size(375, 26);
+            this.tb_username.Size = new System.Drawing.Size(418, 26);
             this.tb_username.TabIndex = 1;
             // 
             // tabPage3
@@ -201,7 +265,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(401, 293);
+            this.tabPage3.Size = new System.Drawing.Size(441, 293);
             this.tabPage3.TabIndex = 1;
             this.tabPage3.Text = "User Info";
             // 
@@ -209,7 +273,7 @@
             // 
             this.button5.Location = new System.Drawing.Point(3, 252);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(392, 35);
+            this.button5.Size = new System.Drawing.Size(432, 35);
             this.button5.TabIndex = 3;
             this.button5.Text = "Get Offline Users";
             this.button5.UseVisualStyleBackColor = true;
@@ -219,7 +283,7 @@
             // 
             this.button4.Location = new System.Drawing.Point(3, 215);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(392, 35);
+            this.button4.Size = new System.Drawing.Size(432, 35);
             this.button4.TabIndex = 2;
             this.button4.Text = "Get Online Users";
             this.button4.UseVisualStyleBackColor = true;
@@ -229,7 +293,7 @@
             // 
             this.button3.Location = new System.Drawing.Point(3, 178);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(392, 35);
+            this.button3.Size = new System.Drawing.Size(432, 35);
             this.button3.TabIndex = 1;
             this.button3.Text = "Get All Users";
             this.button3.UseVisualStyleBackColor = true;
@@ -248,7 +312,7 @@
             this.listView1.GridLines = true;
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(398, 175);
+            this.listView1.Size = new System.Drawing.Size(445, 175);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -256,12 +320,12 @@
             // columnHeader1
             // 
             this.columnHeader1.Text = "ID";
-            this.columnHeader1.Width = 42;
+            this.columnHeader1.Width = 56;
             // 
             // columnHeader2
             // 
             this.columnHeader2.Text = "User";
-            this.columnHeader2.Width = 157;
+            this.columnHeader2.Width = 182;
             // 
             // columnHeader3
             // 
@@ -280,15 +344,14 @@
             this.toolStripSeparator1,
             this.clearTheGridToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 76);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 54);
             // 
             // userFunctionsToolStripMenuItem
             // 
             this.userFunctionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.deleteSelectedUserToolStripMenuItem1,
             this.banSelectedUserToolStripMenuItem,
-            this.unBanSelectedUserToolStripMenuItem,
-            this.editUsersUsernameToolStripMenuItem});
+            this.unBanSelectedUserToolStripMenuItem});
             this.userFunctionsToolStripMenuItem.Name = "userFunctionsToolStripMenuItem";
             this.userFunctionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.userFunctionsToolStripMenuItem.Text = "User Functions";
@@ -296,29 +359,23 @@
             // deleteSelectedUserToolStripMenuItem1
             // 
             this.deleteSelectedUserToolStripMenuItem1.Name = "deleteSelectedUserToolStripMenuItem1";
-            this.deleteSelectedUserToolStripMenuItem1.Size = new System.Drawing.Size(228, 22);
+            this.deleteSelectedUserToolStripMenuItem1.Size = new System.Drawing.Size(182, 22);
             this.deleteSelectedUserToolStripMenuItem1.Text = "Delete Selected User";
             this.deleteSelectedUserToolStripMenuItem1.Click += new System.EventHandler(this.deleteSelectedUserToolStripMenuItem1_Click);
             // 
             // banSelectedUserToolStripMenuItem
             // 
             this.banSelectedUserToolStripMenuItem.Name = "banSelectedUserToolStripMenuItem";
-            this.banSelectedUserToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
+            this.banSelectedUserToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.banSelectedUserToolStripMenuItem.Text = "Ban Selected User";
             this.banSelectedUserToolStripMenuItem.Click += new System.EventHandler(this.banSelectedUserToolStripMenuItem_Click);
             // 
             // unBanSelectedUserToolStripMenuItem
             // 
             this.unBanSelectedUserToolStripMenuItem.Name = "unBanSelectedUserToolStripMenuItem";
-            this.unBanSelectedUserToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
+            this.unBanSelectedUserToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.unBanSelectedUserToolStripMenuItem.Text = "Unban Selected User";
             this.unBanSelectedUserToolStripMenuItem.Click += new System.EventHandler(this.unBanSelectedUserToolStripMenuItem_Click);
-            // 
-            // editUsersUsernameToolStripMenuItem
-            // 
-            this.editUsersUsernameToolStripMenuItem.Name = "editUsersUsernameToolStripMenuItem";
-            this.editUsersUsernameToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
-            this.editUsersUsernameToolStripMenuItem.Text = "Edit Selected Users Username";
             // 
             // toolStripSeparator1
             // 
@@ -332,23 +389,156 @@
             this.clearTheGridToolStripMenuItem.Text = "Clear The Grid";
             this.clearTheGridToolStripMenuItem.Click += new System.EventHandler(this.clearTheGridToolStripMenuItem_Click);
             // 
+            // tabPage5
+            // 
+            this.tabPage5.BackColor = System.Drawing.Color.DimGray;
+            this.tabPage5.Controls.Add(this.button7);
+            this.tabPage5.Controls.Add(this.button9);
+            this.tabPage5.Controls.Add(this.button10);
+            this.tabPage5.Controls.Add(this.listView2);
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage5.Size = new System.Drawing.Size(441, 293);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "License Info";
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(3, 251);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(435, 35);
+            this.button7.TabIndex = 6;
+            this.button7.Text = "Get Redeemed Licenses";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(3, 214);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(435, 35);
+            this.button9.TabIndex = 5;
+            this.button9.Text = "Get UnRedeemed Licenses";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
+            // 
+            // button10
+            // 
+            this.button10.Location = new System.Drawing.Point(3, 177);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(435, 35);
+            this.button10.TabIndex = 4;
+            this.button10.Text = "Get All Licenses";
+            this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
+            // 
+            // listView2
+            // 
+            this.listView2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader5,
+            this.columnHeader6,
+            this.columnHeader7});
+            this.listView2.ContextMenuStrip = this.contextMenuStrip2;
+            this.listView2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listView2.FullRowSelect = true;
+            this.listView2.GridLines = true;
+            this.listView2.Location = new System.Drawing.Point(0, 0);
+            this.listView2.Name = "listView2";
+            this.listView2.Size = new System.Drawing.Size(441, 171);
+            this.listView2.TabIndex = 1;
+            this.listView2.UseCompatibleStateImageBehavior = false;
+            this.listView2.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader5
+            // 
+            this.columnHeader5.Text = "User";
+            this.columnHeader5.Width = 98;
+            // 
+            // columnHeader6
+            // 
+            this.columnHeader6.Text = "License";
+            this.columnHeader6.Width = 228;
+            // 
+            // columnHeader7
+            // 
+            this.columnHeader7.Text = "Redeemed";
+            this.columnHeader7.Width = 82;
+            // 
+            // contextMenuStrip2
+            // 
+            this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.licenseFunctionsToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.clearToolStripMenuItem});
+            this.contextMenuStrip2.Name = "contextMenuStrip2";
+            this.contextMenuStrip2.Size = new System.Drawing.Size(169, 54);
+            // 
+            // licenseFunctionsToolStripMenuItem
+            // 
+            this.licenseFunctionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteLicenseToolStripMenuItem,
+            this.changeLicenseToRedeemedToolStripMenuItem,
+            this.changeLicenseToNotRedeemedToolStripMenuItem});
+            this.licenseFunctionsToolStripMenuItem.Name = "licenseFunctionsToolStripMenuItem";
+            this.licenseFunctionsToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.licenseFunctionsToolStripMenuItem.Text = "License Functions";
+            // 
+            // deleteLicenseToolStripMenuItem
+            // 
+            this.deleteLicenseToolStripMenuItem.Name = "deleteLicenseToolStripMenuItem";
+            this.deleteLicenseToolStripMenuItem.Size = new System.Drawing.Size(263, 22);
+            this.deleteLicenseToolStripMenuItem.Text = "Delete License";
+            this.deleteLicenseToolStripMenuItem.Click += new System.EventHandler(this.deleteLicenseToolStripMenuItem_Click);
+            // 
+            // changeLicenseToRedeemedToolStripMenuItem
+            // 
+            this.changeLicenseToRedeemedToolStripMenuItem.Name = "changeLicenseToRedeemedToolStripMenuItem";
+            this.changeLicenseToRedeemedToolStripMenuItem.Size = new System.Drawing.Size(263, 22);
+            this.changeLicenseToRedeemedToolStripMenuItem.Text = "Change License to \"Redeemed\"";
+            this.changeLicenseToRedeemedToolStripMenuItem.Click += new System.EventHandler(this.changeLicenseToRedeemedToolStripMenuItem_Click);
+            // 
+            // changeLicenseToNotRedeemedToolStripMenuItem
+            // 
+            this.changeLicenseToNotRedeemedToolStripMenuItem.Name = "changeLicenseToNotRedeemedToolStripMenuItem";
+            this.changeLicenseToNotRedeemedToolStripMenuItem.Size = new System.Drawing.Size(263, 22);
+            this.changeLicenseToNotRedeemedToolStripMenuItem.Text = "Change License to \"Not Redeemed\"";
+            this.changeLicenseToNotRedeemedToolStripMenuItem.Click += new System.EventHandler(this.changeLicenseToNotRedeemedToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(165, 6);
+            // 
+            // clearToolStripMenuItem
+            // 
+            this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.clearToolStripMenuItem.Text = "Clear The Grid";
+            this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.ClientSize = new System.Drawing.Size(399, 311);
+            this.ClientSize = new System.Drawing.Size(442, 311);
             this.Controls.Add(this.tabControl1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Form1";
-            this.Text = "  ";
+            this.Text = "  Admin Panel";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.contextMenuStrip1.ResumeLayout(false);
+            this.tabPage5.ResumeLayout(false);
+            this.contextMenuStrip2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -383,7 +573,25 @@
         private System.Windows.Forms.ToolStripMenuItem deleteSelectedUserToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem banSelectedUserToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem unBanSelectedUserToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem editUsersUsernameToolStripMenuItem;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button button8;
+        public System.Windows.Forms.TextBox tb_License;
+        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Button button10;
+        public System.Windows.Forms.ListView listView2;
+        private System.Windows.Forms.ColumnHeader columnHeader5;
+        private System.Windows.Forms.ColumnHeader columnHeader6;
+        private System.Windows.Forms.ColumnHeader columnHeader7;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
+        private System.Windows.Forms.ToolStripMenuItem licenseFunctionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteLicenseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem changeLicenseToRedeemedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem changeLicenseToNotRedeemedToolStripMenuItem;
     }
 }
 

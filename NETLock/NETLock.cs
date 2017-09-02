@@ -12,7 +12,7 @@ namespace NETLock
 {
 
     /*
-                               Version 2.0.0.2
+                               Version 2.0.1.0
         ++++++++++++++++++++++++++ NETLock +++++++++++++++++++++++++++
         =Social Media/Contact Inforamtion & Orginal Github link!=
         - Check out orginal code at https://github.com/XeCrash/NETLock
@@ -135,13 +135,12 @@ namespace NETLock
 
     public class RegisterResponse
     {
-        AuthMethods am = new AuthMethods();
         /// <summary>
         /// This is used to allow the user to register.
         /// </summary>
         /// <param name="username">(string) username</param>
         /// <param name="password">(string) password</param>
-        public bool Register(string username, string password)
+        public bool FreeRegister(string username, string password)
         {
             ProtectionMethods pm = new ProtectionMethods();
             RegisterMethods rm = new RegisterMethods();
@@ -185,6 +184,85 @@ namespace NETLock
                 }
             }
             catch (Exception ex)
+            {
+                cm.CloseConnection();
+                return false;
+            }
+        }
+
+        ///<summary>
+        ///This is used to allow the user to register if they have paid for a license.
+        ///</summary>
+        /// <param name="username">(string) username</param>
+        /// <param name="password">(string) password</param>
+        /// <param name="license">(string) license</param> 
+        public bool PaidRegister(string username, string password, string license)
+        {
+            ProtectionMethods pm = new ProtectionMethods();
+            RegisterMethods rm = new RegisterMethods();
+            ConnectionMethods cm = new ConnectionMethods();
+            try
+            {
+                pm.TamperDetection();
+                if (Properties.Settings.Default.Authenticated == true)
+                {
+                    var hashedpassword = Encryption.HashPassword(password, Encryption.GenerateSalt(12));
+                    if (cm.OpenConnection())
+                    {
+                        if (!rm.UserExists(username))
+                        {
+                            if(rm.LicenseMatches(license))
+                            {
+                                if (!rm.isRedeemed(license))
+                                {
+                                    if (rm.UpdateRedeemStatus(username, license))
+                                    {
+                                        if (rm.InsertedUser(username, hashedpassword))
+                                        {
+                                            cm.CloseConnection();
+                                            return true;
+                                        }
+                                        else
+                                        {
+                                            cm.CloseConnection();
+                                            return false;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        cm.CloseConnection();
+                                        return false;
+                                    }
+                                }
+                                else
+                                {
+                                    cm.CloseConnection();
+                                    return false;
+                                }
+                            }
+                            else
+                            {
+                                cm.CloseConnection();
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            cm.CloseConnection();
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch(Exception ex)
             {
                 cm.CloseConnection();
                 return false;
@@ -558,6 +636,128 @@ namespace NETLock
                 }
             }
             catch (Exception ex)
+            {
+                cm.CloseConnection();
+                return false;
+            }
+        }
+
+        public bool LicenseMatches(string license)
+        {
+            try
+            {
+                if(cm.OpenConnection())
+                {
+                    string GetLicenses = $"SELECT license FROM licenses WHERE license='{license}'";
+                    MySqlCommand cmd = new MySqlCommand(GetLicenses, cm.conn);
+                    MySqlDataReader reader = cmd.ExecuteReader();
+                    if(reader.Read())
+                    {
+                        if(reader.HasRows || reader.GetString(0) != "")
+                        {
+                            reader.Close();
+                            cm.CloseConnection();
+                            return true;
+                        }
+                        else
+                        {
+                            reader.Close();
+                            cm.CloseConnection();
+                            Console.WriteLine("License isn't valid. Please check your internet connection licenses will not redeem unless you have an active connection. If problems presist contact an Administrator", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        reader.Close();
+                        cm.CloseConnection();
+                        return false;
+                    }
+                }
+                else
+                {
+                    cm.CloseConnection();
+                    return false;
+                }
+            }
+            catch
+            {
+                cm.CloseConnection();
+                return false;
+            }
+        }
+
+        public bool isRedeemed(string license)
+        {
+            try
+            {
+                if (cm.OpenConnection())
+                {
+                    string GetLicenses = $"SELECT isredeemed FROM licenses WHERE license='{license}'";
+                    MySqlCommand cmd = new MySqlCommand(GetLicenses, cm.conn);
+                    MySqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        if (reader.GetString(0) == "true")
+                        {
+                            reader.Close();
+                            cm.CloseConnection();
+                            Console.WriteLine("Licenses has already been redeemed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return true;
+                        }
+                        else if(reader.GetString(0) == "false")
+                        {
+                            reader.Close();
+                            cm.CloseConnection();
+                            return false;
+                        }
+                        else
+                        {
+                            reader.Close();
+                            cm.CloseConnection();
+                            Console.WriteLine("Something wnet wrong while redeeming the license please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        reader.Close();
+                        cm.CloseConnection();
+                        return false;
+                    }
+                }
+                else
+                {
+                    cm.CloseConnection();
+                    return false;
+                }
+            }
+            catch
+            {
+                cm.CloseConnection();
+                return false;
+            }
+        }
+
+        public bool UpdateRedeemStatus(string username, string license)
+        {
+            try
+            {
+                if (cm.OpenConnection())
+                {
+                    string GetLicenses = $"UPDATE `licenses` SET `isredeemed` = 'true', `uid` = '{username}' WHERE `licenses`.`license` = '{license}'";
+                    MySqlCommand cmd = new MySqlCommand(GetLicenses, cm.conn);
+                    cmd.ExecuteNonQuery();
+                    cm.CloseConnection();
+                    return true;
+                }
+                else
+                {
+                    cm.CloseConnection();
+                    return false;
+                }
+            }
+            catch
             {
                 cm.CloseConnection();
                 return false;
