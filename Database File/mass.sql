@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 06, 2017 at 10:25 AM
+-- Generation Time: Sep 02, 2017 at 01:03 PM
 -- Server version: 10.1.24-MariaDB
 -- PHP Version: 7.1.6
 
@@ -36,6 +36,19 @@ CREATE TABLE `authentication` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `licenses`
+--
+
+CREATE TABLE `licenses` (
+  `id` int(11) NOT NULL,
+  `uid` varchar(255) NOT NULL,
+  `license` varchar(255) NOT NULL,
+  `isredeemed` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -60,6 +73,12 @@ ALTER TABLE `authentication`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `licenses`
+--
+ALTER TABLE `licenses`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -73,6 +92,11 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `authentication`
 --
 ALTER TABLE `authentication`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `licenses`
+--
+ALTER TABLE `licenses`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `users`
