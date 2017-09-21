@@ -22,7 +22,7 @@ namespace ExampleApplication
         private void Form1_Load(object sender, EventArgs e)
         {
             AuthResponse response = new AuthResponse();
-            if (response.AuthenticateProgram("O=WzXh0$d#Zr9b28GEQxj5ifC")) //Chnage to match the Auth token you generate to use without error.
+            if (response.AuthenticateProgram("LPl8g!bo3ExoPDMRcdEfO8WGm")) //Chnage to match the Auth token you generate to use without error.
             {
                 MessageBox.Show("Program has been authenticated!");
             }
@@ -45,6 +45,10 @@ namespace ExampleApplication
             {
                 Hide();
                 new MainForm().Show();                
+            }
+            else
+            {
+                MessageBox.Show(login.info);
             }
         }
 

@@ -1,3 +1,8 @@
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplicationPaidRegistration\obj\Debug\ExampleApplicationPaidRegistration.LoginForm.resources
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplicationPaidRegistration\obj\Debug\ExampleApplicationPaidRegistration.MainForm.resources
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplicationPaidRegistration\obj\Debug\ExampleApplicationPaidRegistration.Properties.Resources.resources
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplicationPaidRegistration\obj\Debug\ExampleApplicationPaidRegistration.RegisterForm.resources
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplicationPaidRegistration\obj\Debug\ExampleApplicationPaidRegistration.csproj.GenerateResource.Cache
 C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplicationPaidRegistration\bin\Debug\ExampleApplicationPaidRegistration.exe.config
 C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplicationPaidRegistration\bin\Debug\ExampleApplicationPaidRegistration.exe
 C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplicationPaidRegistration\bin\Debug\ExampleApplicationPaidRegistration.pdb
@@ -7,10 +12,5 @@ C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplicationPaidRegistrat
 C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplicationPaidRegistration\bin\Debug\NETLock.pdb
 C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplicationPaidRegistration\bin\Debug\NETLock.dll.config
 C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplicationPaidRegistration\obj\Debug\ExampleApplicationPaidRegistration.csprojResolveAssemblyReference.cache
-C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplicationPaidRegistration\obj\Debug\ExampleApplicationPaidRegistration.LoginForm.resources
-C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplicationPaidRegistration\obj\Debug\ExampleApplicationPaidRegistration.MainForm.resources
-C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplicationPaidRegistration\obj\Debug\ExampleApplicationPaidRegistration.Properties.Resources.resources
-C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplicationPaidRegistration\obj\Debug\ExampleApplicationPaidRegistration.RegisterForm.resources
-C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplicationPaidRegistration\obj\Debug\ExampleApplicationPaidRegistration.csproj.GenerateResource.Cache
 C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplicationPaidRegistration\obj\Debug\ExampleApplicationPaidRegistration.exe
 C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplicationPaidRegistration\obj\Debug\ExampleApplicationPaidRegistration.pdb

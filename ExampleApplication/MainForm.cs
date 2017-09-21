@@ -35,6 +35,7 @@ namespace NETLock
             }
             else
             {
+                MessageBox.Show(lr.info);
                 Process.GetCurrentProcess().Kill();
             }
         }

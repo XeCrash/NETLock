@@ -1,0 +1,16 @@
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplication\obj\Debug\ExampleApplication.LoginForm.resources
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplication\obj\Debug\NETLock.MainForm.resources
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplication\obj\Debug\ExampleApplication.Properties.Resources.resources
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplication\obj\Debug\ExampleApplication.RegistrationForm.resources
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplication\obj\Debug\ExampleApplicationFreeRegistration.csproj.GenerateResource.Cache
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplication\bin\Debug\ExampleApplication.exe.config
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplication\bin\Debug\ExampleApplication.exe
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplication\bin\Debug\ExampleApplication.pdb
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplication\bin\Debug\NETLock.dll
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplication\bin\Debug\MySql.Data.dll
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplication\bin\Debug\NETLock.pdb
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplication\bin\Debug\NETLock.dll.config
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplication\bin\Debug\MySql.Data.xml
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplication\obj\Debug\ExampleApplication.exe
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplication\obj\Debug\ExampleApplication.pdb
+C:\Users\avery\OneDrive\Documents\GitHub\NETLock\ExampleApplication\obj\Debug\ExampleApplicationFreeRegistration.csprojResolveAssemblyReference.cache

@@ -12,7 +12,7 @@ namespace NETLock
 {
 
     /*
-                               Version 2.0.1.0
+                               Version 3.0
         ++++++++++++++++++++++++++ NETLock +++++++++++++++++++++++++++
         =Social Media/Contact Inforamtion & Orginal Github link!=
         - Check out orginal code at https://github.com/XeCrash/NETLock
@@ -20,13 +20,20 @@ namespace NETLock
         - Discord: XeCrash#1389
 
         TODO:
-        - Refactor Messy Code its pretty messy but it works!
+        - Refactor Messy Code. It's pretty messy but it works!
+        - Work out bugs as they come into light.
 
         HELP:
-        if you want to look at the example application that would be the best way to figure it out!
-        ill be making a tutorial video on how to set it up soon!
-     */
+        - If you want to look at the example application that would be the best way to figure it out!
+        - I'll be making a tutorial video on how to set it up Version 3.0 soon!
 
+        COMING SOON:
+        - HWID Protection to detect account sharing. (This should go without saying but also HWID banning)
+        - Account level system. (1 - 7)
+        - Feel free to message me some ideas for next update (TIP: I'm most active on Discord)
+     */
+    
+    
     public class LoginResponse
     {
         AuthMethods am = new AuthMethods();
@@ -47,9 +54,9 @@ namespace NETLock
                 {
                     if (cm.OpenConnection())
                     {
-                        if (!lm.isBanned(username))
+                        if (lm.UserExists(username, password))
                         {
-                            if (lm.UserExists(username, password))
+                            if (!lm.isBanned(username))
                             {
                                 if (lm.UpdateOnlineStatus(username))
                                 {
@@ -59,30 +66,35 @@ namespace NETLock
                                 }
                                 else
                                 {
+                                    info = "Something went wrong in the background. Please try logging in again!";
                                     cm.CloseConnection();
                                     return false;
                                 }
                             }
                             else
                             {
+                                info = "User Banned";
                                 cm.CloseConnection();
                                 return false;
                             }
                         }
                         else
                         {
+                            info = "Invalid Credentials";
                             cm.CloseConnection();
                             return false;
                         }
                     }
                     else
                     {
+                        info = "Unable to connect to the database.";
                         cm.CloseConnection();
                         return false;
                     }
                 }
                 else
                 {
+                    info = "Program authentication has either failed or never took place.";
                     cm.CloseConnection();
                     return false;
                 }
@@ -93,6 +105,8 @@ namespace NETLock
                 return false;
             }
         }
+
+        public string info { get; set; }
     }
 
     public class AuthResponse
@@ -162,24 +176,27 @@ namespace NETLock
                             }
                             else
                             {
+                                info = "Database Error";
                                 cm.CloseConnection();
                                 return false;
                             }
                         }
                         else
                         {
-                            Console.WriteLine("User already Exists!");
+                            info = "Username already exists.";
                             cm.CloseConnection();
                             return false;
                         }
                     }
                     else
                     {
+                        info = "Unable to connect to the database.";
                         return false;
                     }
                 }
                 else
                 {
+                    info = "Program authentication has either failed or never took place.";
                     return false;
                 }
             }
@@ -224,41 +241,48 @@ namespace NETLock
                                         }
                                         else
                                         {
+                                            info = "Database Error";
                                             cm.CloseConnection();
                                             return false;
                                         }
                                     }
                                     else
                                     {
+                                        info = "Database Error";
                                         cm.CloseConnection();
                                         return false;
                                     }
                                 }
                                 else
                                 {
+                                    info = "License has already been redeemed.";
                                     cm.CloseConnection();
                                     return false;
                                 }
                             }
                             else
                             {
+                                info = "Invalid License.";
                                 cm.CloseConnection();
                                 return false;
                             }
                         }
                         else
                         {
+                            info = "Username already exists.";
                             cm.CloseConnection();
                             return false;
                         }
                     }
                     else
                     {
+                        info = "Unable to connect to the database.";
                         return false;
                     }
                 }
                 else
                 {
+                    info = "Program authentication has either failed or never took place.";
                     return false;
                 }
             }
@@ -268,6 +292,8 @@ namespace NETLock
                 return false;
             }
         }
+
+        public string info { get; set; }
     }
 
     public class ProgramStatistics
@@ -291,10 +317,6 @@ namespace NETLock
                         {
                             Online++;
                         }
-                        else
-                        {
-
-                        }
                     }
                     if (!reader.Read())
                     {
@@ -309,6 +331,7 @@ namespace NETLock
                 }
                 else
                 {
+                    info = "Unable to connect to the database.";
                     return "";
                 }
             }
@@ -317,6 +340,8 @@ namespace NETLock
                 return "";
             }
         }
+
+        public string info { get; set; }
     }
 
     public class LogoutResponse
@@ -336,6 +361,7 @@ namespace NETLock
                 }
                 else
                 {
+                    info = "Unable to connect to the database.";
                     cm.CloseConnection();
                     return false;
                 }
@@ -346,6 +372,8 @@ namespace NETLock
                 return false;
             }
         }
+
+        public string info { get; set; }
     }
 
     internal class ConnectionMethods
@@ -449,7 +477,6 @@ namespace NETLock
                     {
                         reader.Close();
                         cm.CloseConnection();
-                        Console.WriteLine("User Exists returns true");
                         return true;
                     }
                     else
@@ -489,8 +516,6 @@ namespace NETLock
                         reader.Close();
                         cm.CloseConnection();
                         Console.WriteLine("User is banned");
-                        var Admin = "YOUR NAME HERE";
-                        MessageBox.Show($"{username} has been banned. If you feel this ban was the result of an error please contact the administrator: {Admin} to resolve the issue.");
                         return true;
                     }
                     else
@@ -562,6 +587,7 @@ namespace NETLock
                         {
                             p.Kill();
                         }
+                        MessageBox.Show("Program Packet Tampering has been detected and logged any further offense from this IP will result in a ban to the IP and any accounts associate with your IP.", "Alert: Tampering Detected!");
                     }
                 }
             }
@@ -618,8 +644,7 @@ namespace NETLock
                     if (reader.HasRows)
                     {                       
                             reader.Close();
-                            cm.CloseConnection();
-                            MessageBox.Show($"The username ''{username}'' is already taken. Please choose another username.");
+                            cm.CloseConnection();                            
                             return true;
                     }
                     else

@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using System.Globalization;
 using System.Security.Cryptography;
+using System.IO;
 
 namespace AdminPanel
 {
@@ -19,8 +20,10 @@ namespace AdminPanel
         public string EM = "Something went wrong :(\n Maybe check your connection string and make sure eveything is correct.";
         public MessageBoxButtons OK = MessageBoxButtons.OK;
         public MessageBoxIcon Error = MessageBoxIcon.Error;
+        public OpenFileDialog SelectFile = new OpenFileDialog();
 
         ConnectionMethods cm = new ConnectionMethods();
+
         public Form1()
         {
             InitializeComponent();
@@ -1521,6 +1524,11 @@ namespace AdminPanel
             }
         }
 
+        private void copyLicenseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(listView2.FocusedItem.SubItems[1].Text);
+        }
+
         private void clearToolStripMenuItem_Click(object sender, EventArgs e)
         {
             listView2.Items.Clear();
@@ -1794,6 +1802,46 @@ namespace AdminPanel
                 cm.CloseConnection();
                 return false;
             }
+        }
+        #endregion
+
+        #region MD5 Hash Calculating
+        private void button11_Click(object sender, EventArgs e)
+        {
+            SelectFile.Title = "Admin Panel | Select a file...";
+            SelectFile.Filter = "All files (*.*)|*.*";
+            SelectFile.FilterIndex = 1;
+            if(SelectFile.ShowDialog() == DialogResult.OK)
+            {
+                var FilePath = SelectFile.FileName;
+                var FileName = SelectFile.SafeFileName;
+                var GetFilesMD5Hash = ComputeHash($"{FilePath}");
+                label5.Text = $"Here is the current MD5 hash for{Environment.NewLine}{FileName}";
+                textBox1.Text = GetFilesMD5Hash;
+            }
+        }
+
+        private static string ComputeHash(string s)
+        {
+            using (var md5 = MD5.Create())
+            {
+                using (var stream = File.OpenRead(s))
+                {
+                    byte[] hash = md5.ComputeHash(stream);
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < hash.Length; i++)
+                    {
+                        sb.Append(hash[i].ToString("X2"));
+                    }
+
+                    return sb.ToString();
+                }
+            }
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("The MD5 hash of a file will always be the same in most cases. Lets say you create a txt file write in it and then compute its has. Now if we delete that file and make a new one with the exact same writing in it and compute its MD5 hash it will be different. This is because everytime a file is created it is assigned a hash at random. This same concept will apply to you when you build ''NETLock.dll'' you will need to recompute the hash for it everytime you build it because we are essentially creating the program as a new file each time we build it. Just a heads up.", "MD5 Hash Calulator Tips", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         #endregion
     }

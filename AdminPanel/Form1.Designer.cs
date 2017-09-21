@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.button2 = new System.Windows.Forms.Button();
@@ -53,7 +54,7 @@
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.userFunctionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteSelectedUserToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.banSelectedUserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -68,13 +69,19 @@
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip();
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.licenseFunctionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteLicenseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changeLicenseToRedeemedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changeLicenseToNotRedeemedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.label5 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.button11 = new System.Windows.Forms.Button();
+            this.copyLicenseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage4.SuspendLayout();
@@ -83,6 +90,7 @@
             this.contextMenuStrip1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
+            this.tabPage6.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -92,10 +100,11 @@
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage5);
+            this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Location = new System.Drawing.Point(-3, -1);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(449, 319);
+            this.tabControl1.Size = new System.Drawing.Size(554, 319);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -108,7 +117,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(441, 293);
+            this.tabPage1.Size = new System.Drawing.Size(546, 293);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Program Auth Generation";
             // 
@@ -116,7 +125,7 @@
             // 
             this.button2.Location = new System.Drawing.Point(11, 205);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(424, 40);
+            this.button2.Size = new System.Drawing.Size(524, 40);
             this.button2.TabIndex = 3;
             this.button2.Text = "Grab Auth Token";
             this.button2.UseVisualStyleBackColor = true;
@@ -125,10 +134,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(117, 99);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(151, 95);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(203, 25);
+            this.label1.Size = new System.Drawing.Size(244, 29);
             this.label1.TabIndex = 2;
             this.label1.Text = "Authentication Token:";
             // 
@@ -136,7 +145,7 @@
             // 
             this.button1.Location = new System.Drawing.Point(11, 159);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(424, 40);
+            this.button1.Size = new System.Drawing.Size(524, 40);
             this.button1.TabIndex = 1;
             this.button1.Text = "Generate Auth Token";
             this.button1.UseVisualStyleBackColor = true;
@@ -148,8 +157,9 @@
             this.tb_AuthToken.Location = new System.Drawing.Point(11, 127);
             this.tb_AuthToken.Name = "tb_AuthToken";
             this.tb_AuthToken.ReadOnly = true;
-            this.tb_AuthToken.Size = new System.Drawing.Size(424, 26);
+            this.tb_AuthToken.Size = new System.Drawing.Size(524, 26);
             this.tb_AuthToken.TabIndex = 0;
+            this.tb_AuthToken.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // tabPage4
             // 
@@ -160,25 +170,26 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(441, 293);
+            this.tabPage4.Size = new System.Drawing.Size(546, 293);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "License Generation";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(120, 82);
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(156, 78);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(183, 25);
+            this.label3.Size = new System.Drawing.Size(223, 29);
             this.label3.TabIndex = 6;
             this.label3.Text = "Generated License:";
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(13, 142);
+            this.button8.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button8.Location = new System.Drawing.Point(11, 142);
             this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(416, 40);
+            this.button8.Size = new System.Drawing.Size(524, 136);
             this.button8.TabIndex = 5;
             this.button8.Text = "Generate License";
             this.button8.UseVisualStyleBackColor = true;
@@ -187,10 +198,10 @@
             // tb_License
             // 
             this.tb_License.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tb_License.Location = new System.Drawing.Point(13, 110);
+            this.tb_License.Location = new System.Drawing.Point(11, 110);
             this.tb_License.Name = "tb_License";
             this.tb_License.ReadOnly = true;
-            this.tb_License.Size = new System.Drawing.Size(416, 26);
+            this.tb_License.Size = new System.Drawing.Size(524, 26);
             this.tb_License.TabIndex = 4;
             // 
             // tabPage2
@@ -204,7 +215,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(441, 293);
+            this.tabPage2.Size = new System.Drawing.Size(546, 293);
             this.tabPage2.TabIndex = 2;
             this.tabPage2.Text = "Create A User";
             // 
@@ -213,7 +224,7 @@
             this.button6.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button6.Location = new System.Drawing.Point(11, 142);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(418, 136);
+            this.button6.Size = new System.Drawing.Size(524, 136);
             this.button6.TabIndex = 5;
             this.button6.Text = "Create User";
             this.button6.UseVisualStyleBackColor = true;
@@ -244,7 +255,7 @@
             this.tb_password.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_password.Location = new System.Drawing.Point(11, 101);
             this.tb_password.Name = "tb_password";
-            this.tb_password.Size = new System.Drawing.Size(418, 26);
+            this.tb_password.Size = new System.Drawing.Size(524, 26);
             this.tb_password.TabIndex = 2;
             // 
             // tb_username
@@ -252,7 +263,7 @@
             this.tb_username.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_username.Location = new System.Drawing.Point(11, 34);
             this.tb_username.Name = "tb_username";
-            this.tb_username.Size = new System.Drawing.Size(418, 26);
+            this.tb_username.Size = new System.Drawing.Size(524, 26);
             this.tb_username.TabIndex = 1;
             // 
             // tabPage3
@@ -265,15 +276,15 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(441, 293);
+            this.tabPage3.Size = new System.Drawing.Size(546, 293);
             this.tabPage3.TabIndex = 1;
             this.tabPage3.Text = "User Info";
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(3, 252);
+            this.button5.Location = new System.Drawing.Point(4, 252);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(432, 35);
+            this.button5.Size = new System.Drawing.Size(537, 35);
             this.button5.TabIndex = 3;
             this.button5.Text = "Get Offline Users";
             this.button5.UseVisualStyleBackColor = true;
@@ -281,9 +292,9 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(3, 215);
+            this.button4.Location = new System.Drawing.Point(4, 215);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(432, 35);
+            this.button4.Size = new System.Drawing.Size(537, 35);
             this.button4.TabIndex = 2;
             this.button4.Text = "Get Online Users";
             this.button4.UseVisualStyleBackColor = true;
@@ -291,9 +302,9 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(3, 178);
+            this.button3.Location = new System.Drawing.Point(4, 178);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(432, 35);
+            this.button3.Size = new System.Drawing.Size(537, 35);
             this.button3.TabIndex = 1;
             this.button3.Text = "Get All Users";
             this.button3.UseVisualStyleBackColor = true;
@@ -312,7 +323,7 @@
             this.listView1.GridLines = true;
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(445, 175);
+            this.listView1.Size = new System.Drawing.Size(550, 175);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -325,7 +336,7 @@
             // columnHeader2
             // 
             this.columnHeader2.Text = "User";
-            this.columnHeader2.Width = 182;
+            this.columnHeader2.Width = 293;
             // 
             // columnHeader3
             // 
@@ -335,7 +346,7 @@
             // columnHeader4
             // 
             this.columnHeader4.Text = "Ban Status";
-            this.columnHeader4.Width = 77;
+            this.columnHeader4.Width = 79;
             // 
             // contextMenuStrip1
             // 
@@ -399,7 +410,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(441, 293);
+            this.tabPage5.Size = new System.Drawing.Size(546, 293);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "License Info";
             // 
@@ -407,7 +418,7 @@
             // 
             this.button7.Location = new System.Drawing.Point(3, 251);
             this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(435, 35);
+            this.button7.Size = new System.Drawing.Size(540, 35);
             this.button7.TabIndex = 6;
             this.button7.Text = "Get Redeemed Licenses";
             this.button7.UseVisualStyleBackColor = true;
@@ -417,7 +428,7 @@
             // 
             this.button9.Location = new System.Drawing.Point(3, 214);
             this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(435, 35);
+            this.button9.Size = new System.Drawing.Size(540, 35);
             this.button9.TabIndex = 5;
             this.button9.Text = "Get UnRedeemed Licenses";
             this.button9.UseVisualStyleBackColor = true;
@@ -427,7 +438,7 @@
             // 
             this.button10.Location = new System.Drawing.Point(3, 177);
             this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(435, 35);
+            this.button10.Size = new System.Drawing.Size(540, 35);
             this.button10.TabIndex = 4;
             this.button10.Text = "Get All Licenses";
             this.button10.UseVisualStyleBackColor = true;
@@ -445,7 +456,7 @@
             this.listView2.GridLines = true;
             this.listView2.Location = new System.Drawing.Point(0, 0);
             this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(441, 171);
+            this.listView2.Size = new System.Drawing.Size(546, 171);
             this.listView2.TabIndex = 1;
             this.listView2.UseCompatibleStateImageBehavior = false;
             this.listView2.View = System.Windows.Forms.View.Details;
@@ -458,12 +469,12 @@
             // columnHeader6
             // 
             this.columnHeader6.Text = "License";
-            this.columnHeader6.Width = 228;
+            this.columnHeader6.Width = 301;
             // 
             // columnHeader7
             // 
             this.columnHeader7.Text = "Redeemed";
-            this.columnHeader7.Width = 82;
+            this.columnHeader7.Width = 115;
             // 
             // contextMenuStrip2
             // 
@@ -477,6 +488,7 @@
             // licenseFunctionsToolStripMenuItem
             // 
             this.licenseFunctionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.copyLicenseToolStripMenuItem,
             this.deleteLicenseToolStripMenuItem,
             this.changeLicenseToRedeemedToolStripMenuItem,
             this.changeLicenseToNotRedeemedToolStripMenuItem});
@@ -517,12 +529,78 @@
             this.clearToolStripMenuItem.Text = "Clear The Grid";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
+            // tabPage6
+            // 
+            this.tabPage6.BackColor = System.Drawing.Color.DimGray;
+            this.tabPage6.Controls.Add(this.label5);
+            this.tabPage6.Controls.Add(this.textBox1);
+            this.tabPage6.Controls.Add(this.label4);
+            this.tabPage6.Controls.Add(this.button11);
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage6.Size = new System.Drawing.Size(546, 293);
+            this.tabPage6.TabIndex = 5;
+            this.tabPage6.Text = "File Hash Calculator";
+            // 
+            // label5
+            // 
+            this.label5.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(11, 65);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(524, 72);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "Please select a file to begin!";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox1.Location = new System.Drawing.Point(11, 150);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.Size = new System.Drawing.Size(524, 26);
+            this.textBox1.TabIndex = 8;
+            this.textBox1.Text = "Calculated MD5 Hash Value";
+            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label4
+            // 
+            this.label4.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(102, 3);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(337, 29);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "<=MD5 Hash Calculator=>";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label4.Click += new System.EventHandler(this.label4_Click);
+            // 
+            // button11
+            // 
+            this.button11.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button11.Location = new System.Drawing.Point(6, 182);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(534, 105);
+            this.button11.TabIndex = 0;
+            this.button11.Text = "Select a File";
+            this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
+            // 
+            // copyLicenseToolStripMenuItem
+            // 
+            this.copyLicenseToolStripMenuItem.Name = "copyLicenseToolStripMenuItem";
+            this.copyLicenseToolStripMenuItem.Size = new System.Drawing.Size(263, 22);
+            this.copyLicenseToolStripMenuItem.Text = "Copy License";
+            this.copyLicenseToolStripMenuItem.Click += new System.EventHandler(this.copyLicenseToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.ClientSize = new System.Drawing.Size(442, 311);
+            this.ClientSize = new System.Drawing.Size(548, 311);
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Form1";
@@ -539,6 +617,8 @@
             this.contextMenuStrip1.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
             this.contextMenuStrip2.ResumeLayout(false);
+            this.tabPage6.ResumeLayout(false);
+            this.tabPage6.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -592,6 +672,12 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem changeLicenseToNotRedeemedToolStripMenuItem;
+        private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.Label label5;
+        public System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button button11;
+        private System.Windows.Forms.ToolStripMenuItem copyLicenseToolStripMenuItem;
     }
 }
 

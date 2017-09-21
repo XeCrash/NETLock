@@ -41,10 +41,12 @@ namespace ExampleApplication
             if (register.FreeRegister(textBox1.Text, textBox2.Text))
             {
                 MessageBox.Show("Registration was successful!");
+                Hide();
+                new LoginForm().Show();
             }
             else
             {
-                MessageBox.Show("Registration Failed");
+                MessageBox.Show(register.info);
             }
         }
     }

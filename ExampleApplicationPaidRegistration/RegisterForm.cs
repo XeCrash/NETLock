@@ -30,7 +30,7 @@ namespace ExampleApplicationPaidRegistration
             }
             else
             {
-                MessageBox.Show("Registration failed. Please make sure the license match's the one sent to you. If it is this could mean the license has already been redeemed before.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(register.info, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
