@@ -7,17 +7,31 @@ using MySql.Data.MySqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
+using System.Management;
+using System.Configuration;
+using System.Threading;
+using System.Net;
 
 namespace NETLock
 {
 
     /*
-                               Version 3.0
+                               Version 3.2
         ++++++++++++++++++++++++++ NETLock +++++++++++++++++++++++++++
         =Social Media/Contact Inforamtion & Orginal Github link!=
         - Check out orginal code at https://github.com/XeCrash/NETLock
         - Twitter: @XeCrashDev
         - Discord: XeCrash#1389
+
+        THIS UPDATE: (+ = added | - = removed)
+        + Maintenance mode
+        + Free Mode
+        + HWID Check toggle
+        + Auto Updating using the database (See example applications on how to use)
+        + Updates to the database file
+        + Lots of core changes to login and register to support the new features
+        + Admin panel has been updated to support new features as well.
+        + Some bug and preformance fixes
 
         TODO:
         - Refactor Messy Code. It's pretty messy but it works!
@@ -25,20 +39,20 @@ namespace NETLock
 
         HELP:
         - If you want to look at the example application that would be the best way to figure it out!
-        - I'll be making a tutorial video on how to set it up Version 3.0 soon!
+        - I'll be making a tutorial video on how to set it up Version 3.2 soon!
 
         COMING SOON:
-        - HWID Protection to detect account sharing. (This should go without saying but also HWID banning)
-        - Account level system. (1 - 7)
+        - Account level system. (1 - 7) (Not yet added this update)
         - Feel free to message me some ideas for next update (TIP: I'm most active on Discord)
      */
-    
-    
+
+
     public class LoginResponse
     {
         AuthMethods am = new AuthMethods();
+
         /// <summary>
-        /// This is used to allow the user to login by checking the database for a existing user.
+        /// This is used to allow the user to login by checking the database for a existing user 
         /// </summary>
         /// <param name="username">(string) username</param>
         /// <param name="password">(string) password</param>
@@ -54,35 +68,61 @@ namespace NETLock
                 {
                     if (cm.OpenConnection())
                     {
-                        if (lm.UserExists(username, password))
+                        if (!lm.isFreeMode())
                         {
-                            if (!lm.isBanned(username))
+                            if (lm.UserExists(username, password))
                             {
-                                if (lm.UpdateOnlineStatus(username))
+                                if (!lm.isMaintenanceMode())
                                 {
-                                    Properties.Settings.Default.username = username;
-                                    cm.CloseConnection();
-                                    return true;
+                                    if (lm.HWIDCheck(username))
+                                    {
+                                        if (!lm.isBanned(username))
+                                        {
+                                            if (lm.UpdateOnlineStatus(username))
+                                            {
+                                                Properties.Settings.Default.username = username;
+                                                cm.CloseConnection();
+                                                return true;
+                                            }
+                                            else
+                                            {
+                                                info = "Something went wrong in the background. Please try logging in again!";
+                                                cm.CloseConnection();
+                                                return false;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            info = "User Banned";
+                                            cm.CloseConnection();
+                                            return false;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        info = "Hardware ID Mis-match. Please login from the same computer you used to register with.";
+                                        cm.CloseConnection();
+                                        return false;
+                                    }
                                 }
                                 else
                                 {
-                                    info = "Something went wrong in the background. Please try logging in again!";
+                                    info = "Application is currently under maintenance. Please try logging in again at a later time.";
                                     cm.CloseConnection();
                                     return false;
                                 }
                             }
                             else
                             {
-                                info = "User Banned";
+                                info = "Invalid Credentials";
                                 cm.CloseConnection();
                                 return false;
                             }
                         }
                         else
                         {
-                            info = "Invalid Credentials";
-                            cm.CloseConnection();
-                            return false;
+                            //MessageBox.Show("Application is currently in free mode enjoy");
+                            return true;
                         }
                     }
                     else
@@ -112,8 +152,11 @@ namespace NETLock
     public class AuthResponse
     {
         AuthMethods am = new AuthMethods();
+        LoginMethods lm = new LoginMethods();
         ConnectionMethods cm = new ConnectionMethods();
         ProtectionMethods pm = new ProtectionMethods();
+
+        public bool FreeModeActive { get; set; }
 
         public bool AuthenticateProgram(string Token)
         {
@@ -126,6 +169,14 @@ namespace NETLock
                     {
                         cm.CloseConnection();
                         Properties.Settings.Default.Authenticated = true;
+                        if(lm.isFreeMode())
+                        {
+                            FreeModeActive = true;
+                        }
+                        else
+                        {
+                            FreeModeActive = false;
+                        }
                         return true;
                     }
                     else
@@ -143,6 +194,19 @@ namespace NETLock
             {
                 cm.CloseConnection();
                 return false;
+            }
+        }
+
+        public void ExecuteFreeMode(Form FormToLoad, Form CurrentFormToHide)
+        {
+            if (!lm.isMaintenanceMode())
+            {
+                CurrentFormToHide.Close();
+                FormToLoad.Show();
+            }
+            else
+            {
+                MessageBox.Show("The current application is in Free Mode but is down for maintenance right now. Please check back later");
             }
         }
     }
@@ -376,11 +440,56 @@ namespace NETLock
         public string info { get; set; }
     }
 
+    public class AutoUpdateResponse
+    {
+        AutoUpdateMethods aum = new AutoUpdateMethods();
+
+        public string info { get; set; }
+
+        /// <summary>
+        /// This will be used to check for an existing update from the info in the database.
+        /// </summary>
+        /// <param name="CurrentVersion">Current version of the program that will be checked against the one stored in the database.</param>
+        /// <returns></returns>
+        public bool CheckForUpdate(string CurrentVersion)
+        {
+            if(aum.CheckAppVersionToProgramVersion(CurrentVersion))
+            {
+                info = $"An update to {aum.AppVersion} is avaliable, your current version is {CurrentVersion}";
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// This will be used to download the update files straight from your server.
+        /// </summary>
+        /// <param name="PathToSaveDownload">The path in which you would like to save the download and name of the download (Ex. @"Downloads\Update.rar")</param>
+        /// <returns></returns>
+        public bool DownloadUpdate(string PathToSaveDownload)
+        {
+            if (aum.DownloadProgram(PathToSaveDownload))
+            {
+                info = aum.info;
+                return true;
+            }
+            else
+            {
+                info = aum.info;
+                return false;
+            }
+        }
+    }
+
     internal class ConnectionMethods
     {
         //The Connection string will vary from person to person so make sure to change it to fit your needs.
         //In the example below I will be using xampp to host the database on my local machine.
         public MySqlConnection conn = new MySqlConnection("Server=localhost; Uid=root; Pwd=; Database=mass;");
+
         public bool OpenConnection()
         {
             try
@@ -462,6 +571,7 @@ namespace NETLock
     internal class LoginMethods
     {
         ConnectionMethods cm = new ConnectionMethods();
+        RegisterMethods rm = new RegisterMethods();
 
         public bool UserExists(string username, string password)
         {
@@ -491,6 +601,115 @@ namespace NETLock
                     reader.Close();
                     cm.CloseConnection();
                     return false;
+                }
+            }
+            else
+            {
+                cm.CloseConnection();
+                return false;
+            }
+        }
+
+        public bool isMaintenanceMode()
+        {
+            if (cm.OpenConnection())
+            {
+                string GrabMaintenanceModeStatus = $"SELECT maintenancemode FROM administration";
+                MySqlCommand cmd = new MySqlCommand(GrabMaintenanceModeStatus, cm.conn);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                reader.Read();
+                if (reader.GetString(0) == "true")
+                {
+                    reader.Close();
+                    cm.CloseConnection();
+                    return true;
+                }
+                else
+                {
+                    reader.Close();
+                    cm.CloseConnection();
+                    return false;
+                }
+            }
+            else
+            {
+                cm.CloseConnection();
+                return false;
+            }
+        }
+
+        public bool isFreeMode()
+        {
+            if (cm.OpenConnection())
+            {
+                string GrabFreeModeStatus = $"SELECT freemode FROM administration";
+                MySqlCommand cmd = new MySqlCommand(GrabFreeModeStatus, cm.conn);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                reader.Read();
+                if (reader.GetString(0) == "true")
+                {
+                    reader.Close();
+                    cm.CloseConnection();
+                    return true;
+
+                }
+                else
+                {
+                    reader.Close();
+                    cm.CloseConnection();
+                    return false;
+                }
+            }
+            else
+            {
+                cm.CloseConnection();
+                return false;
+            }
+        }
+
+        public bool HWIDCheck(string username)
+        {
+            if (cm.OpenConnection())
+            {
+                string CheckIfHWIDEnabled = $"SELECT hwidcheckenabled FROM administration";
+                MySqlCommand cmd1 = new MySqlCommand(CheckIfHWIDEnabled, cm.conn);
+                MySqlDataReader reader1 = cmd1.ExecuteReader();
+                reader1.Read();
+                if (reader1.GetString(0) == "true")
+                {
+                    reader1.Close();
+                    string GrabUserHWID = $"SELECT hwid FROM users WHERE uid='{username}'";
+                    MySqlCommand cmd2 = new MySqlCommand(GrabUserHWID, cm.conn);
+                    MySqlDataReader reader2 = cmd2.ExecuteReader();
+                    reader2.Read();
+                    if (reader2.HasRows)
+                    {
+                        var HWID = reader2.GetString(0);
+                        if (HWID == rm.HWID())
+                        {
+                            reader2.Close();
+                            cm.CloseConnection();
+                            return true;
+                        }
+                        else
+                        {
+                            reader2.Close();
+                            cm.CloseConnection();
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        reader2.Close();
+                        cm.CloseConnection();
+                        return false;
+                    }
+                }
+                else
+                {
+                    reader1.Close();
+                    cm.CloseConnection();
+                    return true;
                 }
             }
             else
@@ -607,7 +826,7 @@ namespace NETLock
             {
                 if (cm.OpenConnection())
                 {
-                    string sql = $"INSERT INTO users(uid, pwd, registered, lastlogin, online, isbanned) VALUES('{username}', '{password}', '{datetime()}', '00/00/0000 00:00:00 UTC', 'false', 'false')";
+                    string sql = $"INSERT INTO users(uid, pwd, registered, lastlogin, online, isbanned, hwid) VALUES('{username}', '{password}', '{datetime()}', '00/00/0000 00:00:00 UTC', 'false', 'false', '{HWID()}')";
                     MySqlCommand cmd = new MySqlCommand(sql, cm.conn);
                     cmd.ExecuteNonQuery();
                     cm.CloseConnection();
@@ -624,6 +843,19 @@ namespace NETLock
                 cm.CloseConnection();
                 return false;
             }
+        }
+
+        public string HWID()
+        {
+            var mbs = new ManagementObjectSearcher("Select ProcessorId From Win32_processor");
+            ManagementObjectCollection mbsList = mbs.Get();
+            string id = "";
+            foreach (ManagementObject mo in mbsList)
+            {
+                id = mo["ProcessorId"].ToString();
+                break;
+            }
+            return id;
         }
 
         public string datetime()
@@ -783,6 +1015,126 @@ namespace NETLock
                 }
             }
             catch
+            {
+                cm.CloseConnection();
+                return false;
+            }
+        }
+    }
+
+    internal class AutoUpdateMethods
+    {
+        ConnectionMethods cm = new ConnectionMethods();
+        
+        public string AppVersion { get; set; }
+        public string DownloadLink { get; set; }
+        public string info { get; set; }
+
+        public bool CheckAppVersionToProgramVersion(string CurrentVersion)
+        {
+            if (ApplicationVersion())
+            {
+                if (AppVersion != CurrentVersion)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                cm.CloseConnection();
+                return false;
+            }
+        }
+
+        public bool DownloadProgram(string PathToSaveDownload)
+        {
+            AutoUpdateResponse aur = new AutoUpdateResponse();
+            if (ApplicationUpdateLink())
+            {
+                try
+                {
+                    new WebClient().DownloadFile(DownloadLink, PathToSaveDownload);
+                    info = "The updated files have been downloaded successfully!";
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    info = ex.Message;
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Grabs applications version from the database
+        /// </summary>
+        /// <returns></returns>
+        public bool ApplicationVersion()
+        {
+            if (cm.OpenConnection())
+            {
+                string GrabAppVersion = "SELECT appversion FROM administration";
+                MySqlCommand cmd = new MySqlCommand(GrabAppVersion, cm.conn);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                reader.Read();
+                if (reader.HasRows)
+                {
+                    AppVersion = reader.GetString(0);
+                    reader.Close();
+                    cm.CloseConnection();
+                    return true;
+                }
+                else
+                {
+                    AppVersion = "";
+                    reader.Close();
+                    cm.CloseConnection();
+                    return false;
+                }
+            }
+            else
+            {
+                cm.CloseConnection();
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Grabs the applications download link from the database
+        /// </summary>
+        /// <returns></returns>
+        public bool ApplicationUpdateLink()
+        {
+            if (cm.OpenConnection())
+            {
+                string Grabdownloadlink = "SELECT downloadlink FROM administration";
+                MySqlCommand cmd = new MySqlCommand(Grabdownloadlink, cm.conn);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                reader.Read();
+                if (reader.HasRows)
+                {
+                    DownloadLink = reader.GetString(0);
+                    reader.Close();
+                    cm.CloseConnection();
+                    return true;
+                }
+                else
+                {
+                    DownloadLink = "";
+                    reader.Close();
+                    cm.CloseConnection();
+                    return false;
+                }
+            }
+            else
             {
                 cm.CloseConnection();
                 return false;

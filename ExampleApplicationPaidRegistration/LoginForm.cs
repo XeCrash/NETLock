@@ -19,12 +19,15 @@ namespace ExampleApplicationPaidRegistration
             InitializeComponent();
         }
 
-        private void LoginForm_Load(object sender, EventArgs e)
+        private void LoginForm_Shown(object sender, EventArgs e)
         {
             AuthResponse response = new AuthResponse();
-            if (response.AuthenticateProgram("LPl8g!bo3ExoPDMRcdEfO8WGm")) //Chnage to match the Auth token you generate to use without error.
+            if (response.AuthenticateProgram("08lsJevTBmPa=ME2uzO1bpf6B")) //Chnage to match the Auth token you generate to use without error.
             {
-                
+                if (response.FreeModeActive) //This is only if you wish to have free mode implemented in your application
+                {
+                    response.ExecuteFreeMode(new MainForm(), this);
+                }
             }
             else
             {
@@ -35,7 +38,7 @@ namespace ExampleApplicationPaidRegistration
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            Process.GetCurrentProcess().Kill();
+                Process.GetCurrentProcess().Kill();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -56,6 +59,11 @@ namespace ExampleApplicationPaidRegistration
         {
             Hide();
             new RegisterForm().Show();
+        }
+
+        private void LoginForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -11,20 +11,25 @@ using MySql.Data.MySqlClient;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.IO;
+using System.Management;
 
 namespace AdminPanel
 {
     //The admin panel is for developer use only and should not be give to anyone
-    public partial class Form1 : Form
+    public partial class AdminMainForm : Form
     {
         public string EM = "Something went wrong :(\n Maybe check your connection string and make sure eveything is correct.";
         public MessageBoxButtons OK = MessageBoxButtons.OK;
         public MessageBoxIcon Error = MessageBoxIcon.Error;
         public OpenFileDialog SelectFile = new OpenFileDialog();
+        public static bool HWIDCheckEnabled;
+        public static bool FreeModeCheckEnabled;
+        public static bool MaintenanceModeCheckEnabled;
 
         ConnectionMethods cm = new ConnectionMethods();
+        AdministrationMethods adminm = new AdministrationMethods();
 
-        public Form1()
+        public AdminMainForm()
         {
             InitializeComponent();
         }
@@ -32,6 +37,23 @@ namespace AdminPanel
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            adminm.CheckHWIDStatus();
+            if (HWIDCheckEnabled == true)
+                btn_HWIDCheck.Text = "Disable HWID Checking";
+            else
+                btn_HWIDCheck.Text = "Enable HWID Checking";
+
+            adminm.CheckFreeModeStatus();
+            if (FreeModeCheckEnabled == true)
+                btn_freemode.Text = "Disable Free Mode";
+            else
+                btn_freemode.Text = "Enable Free Mode";
+
+            adminm.CheckMaintenanceMode();
+            if (MaintenanceModeCheckEnabled == true)
+                btn_MaintenanceMode.Text = "Disable Maintenance Mode";
+            else
+                btn_MaintenanceMode.Text = "Enable Maintenance Mode";
 
         }
 
@@ -117,7 +139,7 @@ namespace AdminPanel
         private void button8_Click(object sender, EventArgs e)
         {
             LicenseMethods lm = new LicenseMethods();
-            if(lm.GeneratedLicense())
+            if (lm.GeneratedLicense())
             {
                 tb_License.Text = Properties.Settings.Default.License;
             }
@@ -346,7 +368,7 @@ namespace AdminPanel
 
         private void banSelectedUserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(BanSelectedUser())
+            if (BanSelectedUser())
             {
                 if (listView1.FocusedItem.SubItems[3].Text == "false")
                 {
@@ -607,7 +629,7 @@ namespace AdminPanel
                 var License = GenSerialKey(rand.Next(5, 25));
                 try
                 {
-                    if(cm.OpenConnection())
+                    if (cm.OpenConnection())
                     {
                         string InsertLicenseToDB = $"INSERT INTO licenses(license, isredeemed) VALUES('{License}', 'false')";
                         MySqlCommand cmd = new MySqlCommand(InsertLicenseToDB, cm.conn);
@@ -622,7 +644,7 @@ namespace AdminPanel
                         return false;
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     cm.CloseConnection();
                     return false;
@@ -667,6 +689,95 @@ namespace AdminPanel
                 catch (Exception ex)
                 {
                     return false;
+                }
+            }
+        }
+
+        public class AdministrationMethods
+        {
+            ConnectionMethods cm = new ConnectionMethods();
+
+            public void CheckHWIDStatus()
+            {
+                if (cm.OpenConnection())
+                {
+                    string CheckIfHWIDenabled = $"SELECT hwidcheckenabled FROM administration";
+                    MySqlCommand cmd = new MySqlCommand(CheckIfHWIDenabled, cm.conn);
+                    MySqlDataReader reader = cmd.ExecuteReader();
+                    reader.Read();
+                    if (reader.GetString(0) == "true")
+                    {
+                        HWIDCheckEnabled = true;
+                        reader.Close();
+                        cm.CloseConnection();
+                    }
+                    else
+                    {
+                        HWIDCheckEnabled = false;
+                        reader.Close();
+                        cm.CloseConnection();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Unable to connect to the database");
+                    HWIDCheckEnabled = false;
+                }
+            }
+
+            public void CheckFreeModeStatus()
+            {
+                if (cm.OpenConnection())
+                {
+                    string CheckIfFreemodeEnabled = $"SELECT freemode FROM administration";
+                    MySqlCommand cmd = new MySqlCommand(CheckIfFreemodeEnabled, cm.conn);
+                    MySqlDataReader reader = cmd.ExecuteReader();
+                    reader.Read();
+                    if (reader.GetString(0) == "true")
+                    {
+                        FreeModeCheckEnabled = true;
+                        reader.Close();
+                        cm.CloseConnection();
+                    }
+                    else
+                    {
+                        FreeModeCheckEnabled = false;
+                        reader.Close();
+                        cm.CloseConnection();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Unable to connect to the database");
+                    FreeModeCheckEnabled = false;
+                }
+            }
+
+            public void CheckMaintenanceMode()
+            {
+                if (cm.OpenConnection())
+                {
+                    string CheckIfmaintenancemodeEnabled = $"SELECT maintenancemode FROM administration";
+                    MySqlCommand cmd = new MySqlCommand(CheckIfmaintenancemodeEnabled, cm.conn);
+                    MySqlDataReader reader = cmd.ExecuteReader();
+                    reader.Read();
+                    if (reader.GetString(0) == "true")
+                    {
+                        MaintenanceModeCheckEnabled = true;
+                        reader.Close();
+                        cm.CloseConnection();
+                    }
+                    else
+                    {
+                        MaintenanceModeCheckEnabled = false;
+                        reader.Close();
+                        cm.CloseConnection();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Unable to connect to the database");
+                    MaintenanceModeCheckEnabled = false;
                 }
             }
         }
@@ -1426,7 +1537,7 @@ namespace AdminPanel
                 {
                     if (cm.OpenConnection())
                     {
-                        string sql = $"INSERT INTO users(uid, pwd, registered, lastlogin, online, isbanned) VALUES('{username}', '{password}', '{datetime()}', '00/00/0000 00:00:00 UTC', 'false', 'false')";
+                        string sql = $"INSERT INTO users(uid, pwd, registered, lastlogin, online, isbanned, hwid) VALUES('{username}', '{password}', '{datetime()}', '00/00/0000 00:00:00 UTC', 'false', 'false', '{HWID()}')";
                         MySqlCommand cmd = new MySqlCommand(sql, cm.conn);
                         cmd.ExecuteNonQuery();
                         cm.CloseConnection();
@@ -1443,6 +1554,19 @@ namespace AdminPanel
                     cm.CloseConnection();
                     return false;
                 }
+            }
+
+            public string HWID()
+            {
+                var mbs = new ManagementObjectSearcher("Select ProcessorId From Win32_processor");
+                ManagementObjectCollection mbsList = mbs.Get();
+                string id = "";
+                foreach (ManagementObject mo in mbsList)
+                {
+                    id = mo["ProcessorId"].ToString();
+                    break;
+                }
+                return id;
             }
 
             public string datetime()
@@ -1490,7 +1614,7 @@ namespace AdminPanel
         #region License info list View
         private void button10_Click(object sender, EventArgs e)
         {
-            if(!GetAllLicenses())
+            if (!GetAllLicenses())
             {
                 MessageBox.Show(EM, "Error", OK, Error);
             }
@@ -1498,7 +1622,7 @@ namespace AdminPanel
 
         private void button9_Click(object sender, EventArgs e)
         {
-            if(!GetUnRedeemedLicenses())
+            if (!GetUnRedeemedLicenses())
             {
                 MessageBox.Show(EM, "Error", OK, Error);
             }
@@ -1514,7 +1638,7 @@ namespace AdminPanel
 
         private void deleteLicenseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(DeletedLicense())
+            if (DeletedLicense())
             {
                 listView2.FocusedItem.Remove();
             }
@@ -1536,9 +1660,9 @@ namespace AdminPanel
 
         private void changeLicenseToRedeemedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(listView2.FocusedItem.SubItems[2].Text == "NOT USED")
+            if (listView2.FocusedItem.SubItems[2].Text == "NOT USED")
             {
-                if(ChangeToRedeemed())
+                if (ChangeToRedeemed())
                 {
                     listView2.FocusedItem.SubItems[2].Text = "USED";
                     MessageBox.Show("License was successfully changed to ''Redeemed''!");
@@ -1548,7 +1672,7 @@ namespace AdminPanel
                     MessageBox.Show(EM, "Error", OK, Error);
                 }
             }
-            else if(listView2.FocusedItem.SubItems[2].Text == "USED")
+            else if (listView2.FocusedItem.SubItems[2].Text == "USED")
             {
                 MessageBox.Show("This license is already redeemed.", "Error", OK, Error);
             }
@@ -1652,7 +1776,7 @@ namespace AdminPanel
                         }
                         else if (redeemed == "false")
                         {
-                            
+
                         }
                     }
                     if (!reader.Read())
@@ -1696,7 +1820,7 @@ namespace AdminPanel
                         string redeemed = reader["isredeemed"].ToString();
                         if (redeemed == "true")
                         {
-                            
+
                         }
                         else if (redeemed == "false")
                         {
@@ -1811,7 +1935,7 @@ namespace AdminPanel
             SelectFile.Title = "Admin Panel | Select a file...";
             SelectFile.Filter = "All files (*.*)|*.*";
             SelectFile.FilterIndex = 1;
-            if(SelectFile.ShowDialog() == DialogResult.OK)
+            if (SelectFile.ShowDialog() == DialogResult.OK)
             {
                 var FilePath = SelectFile.FileName;
                 var FileName = SelectFile.SafeFileName;
@@ -1844,5 +1968,179 @@ namespace AdminPanel
             MessageBox.Show("The MD5 hash of a file will always be the same in most cases. Lets say you create a txt file write in it and then compute its has. Now if we delete that file and make a new one with the exact same writing in it and compute its MD5 hash it will be different. This is because everytime a file is created it is assigned a hash at random. This same concept will apply to you when you build ''NETLock.dll'' you will need to recompute the hash for it everytime you build it because we are essentially creating the program as a new file each time we build it. Just a heads up.", "MD5 Hash Calulator Tips", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         #endregion
+
+        #region App Administration
+        //Buttons
+        private void btn_HWIDCheck_Click(object sender, EventArgs e)
+        {
+            if (!UpdateHWIDCheck())
+            {
+                MessageBox.Show("Something went wrong please make sure your connecting to the database properly and try again!");
+            }
+        }
+
+        private void btn_freemode_Click(object sender, EventArgs e)
+        {
+            if (!UpdateFreeMode())
+            {
+                MessageBox.Show("Something went wrong please make sure your connecting to the database properly and try again!");
+            }
+        }
+
+        private void btn_MaintenanceMode_Click(object sender, EventArgs e)
+        {
+            if (!UpdateMaintenanceMode())
+            {
+                MessageBox.Show("Something went wrong please make sure your connecting to the database properly and try again!");
+            }
+        }
+
+        //Functions
+        public bool UpdateMaintenanceMode()
+        {
+            try
+            {
+                if (cm.OpenConnection())
+                {
+                    string FetchMM = "SELECT maintenancemode FROM administration";
+                    MySqlCommand cmd1 = new MySqlCommand(FetchMM, cm.conn);
+                    MySqlDataReader reader = cmd1.ExecuteReader();
+                    reader.Read();
+                    if (reader.GetString(0) == "true")
+                    {
+                        reader.Close();
+                        string UpdateMM = $"UPDATE `administration` SET `maintenancemode`='false'";
+                        MySqlCommand cmd = new MySqlCommand(UpdateMM, cm.conn);
+                        cmd.ExecuteNonQuery();
+                        cm.CloseConnection();
+                        btn_MaintenanceMode.Text = "Enable Maintenance Mode";
+                        MessageBox.Show("Maintenance Mode has been disabled!");
+                        return true;
+                    }
+                    else
+                    {
+                        reader.Close();
+                        string UpdateHWID = $"UPDATE `administration` SET `maintenancemode`='true'";
+                        MySqlCommand cmd = new MySqlCommand(UpdateHWID, cm.conn);
+                        cmd.ExecuteNonQuery();
+                        cm.CloseConnection();
+                        btn_MaintenanceMode.Text = "Disable Maintenance Mode";
+                        MessageBox.Show("Maintenance Mode has been enabled!");
+                        return true;
+                    }
+
+                }
+                else
+                {
+                    cm.CloseConnection();
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                cm.CloseConnection();
+                return false;
+            }
+        }
+
+        public bool UpdateHWIDCheck()
+        {
+            try
+            {
+                if (cm.OpenConnection())
+                {
+                    string FetchHWID = "SELECT hwidcheckenabled FROM administration";
+                    MySqlCommand cmd1 = new MySqlCommand(FetchHWID, cm.conn);
+                    MySqlDataReader reader = cmd1.ExecuteReader();
+                    reader.Read();
+                    if (reader.GetString(0) == "true")
+                    {
+                        reader.Close();
+                        string UpdateHWID = $"UPDATE `administration` SET `hwidcheckenabled`='false'";
+                        MySqlCommand cmd = new MySqlCommand(UpdateHWID, cm.conn);
+                        cmd.ExecuteNonQuery();
+                        cm.CloseConnection();
+                        btn_HWIDCheck.Text = "Enable HWID Checking";
+                        MessageBox.Show("HWID Checking has been disabled!");
+                        return true;
+                    }
+                    else
+                    {
+                        reader.Close();
+                        string UpdateHWID = $"UPDATE `administration` SET `hwidcheckenabled`='true'";
+                        MySqlCommand cmd = new MySqlCommand(UpdateHWID, cm.conn);
+                        cmd.ExecuteNonQuery();
+                        cm.CloseConnection();
+                        btn_HWIDCheck.Text = "Disable HWID Checking";
+                        MessageBox.Show("HWID Checking has been enabled!");
+                        return true;
+                    }
+
+                }
+                else
+                {
+                    cm.CloseConnection();
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                cm.CloseConnection();
+                return false;
+            }
+        }
+
+        public bool UpdateFreeMode()
+        {
+            try
+            {
+                if (cm.OpenConnection())
+                {
+                    string FetchHWID = "SELECT freemode FROM administration";
+                    MySqlCommand cmd1 = new MySqlCommand(FetchHWID, cm.conn);
+                    MySqlDataReader reader = cmd1.ExecuteReader();
+                    reader.Read();
+                    if (reader.GetString(0) == "true")
+                    {
+                        reader.Close();
+                        string UpdateHWID = $"UPDATE `administration` SET `freemode`='false'";
+                        MySqlCommand cmd = new MySqlCommand(UpdateHWID, cm.conn);
+                        cmd.ExecuteNonQuery();
+                        cm.CloseConnection();
+                        btn_freemode.Text = "Enable Free Mode";
+                        MessageBox.Show("Free Mode has been disabled!");
+                        return true;
+                    }
+                    else
+                    {
+                        reader.Close();
+                        string UpdateHWID = $"UPDATE `administration` SET `freemode`='true'";
+                        MySqlCommand cmd = new MySqlCommand(UpdateHWID, cm.conn);
+                        cmd.ExecuteNonQuery();
+                        cm.CloseConnection();
+                        btn_freemode.Text = "Disable Free Mode";
+                        MessageBox.Show("Free Mode has been enabled!");
+                        return true;
+                    }
+
+                }
+                else
+                {
+                    cm.CloseConnection();
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                cm.CloseConnection();
+                return false;
+            }
+        }
+        #endregion
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            new AppVersionandUpdateForm().Show();
+        }
     }
 }

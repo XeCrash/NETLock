@@ -9,3 +9,14 @@ C:\Users\avery\OneDrive\Documents\GitHub\NETLock\AdminPanel\obj\Debug\AdminPanel
 C:\Users\avery\OneDrive\Documents\GitHub\NETLock\AdminPanel\obj\Debug\AdminPanel.exe
 C:\Users\avery\OneDrive\Documents\GitHub\NETLock\AdminPanel\obj\Debug\AdminPanel.pdb
 C:\Users\avery\OneDrive\Documents\GitHub\NETLock\AdminPanel\obj\Debug\AdminPanel.csprojResolveAssemblyReference.cache
+C:\Users\Avery\Documents\GitHub\NETLock\AdminPanel\bin\Debug\AdminPanel.exe.config
+C:\Users\Avery\Documents\GitHub\NETLock\AdminPanel\bin\Debug\AdminPanel.exe
+C:\Users\Avery\Documents\GitHub\NETLock\AdminPanel\bin\Debug\AdminPanel.pdb
+C:\Users\Avery\Documents\GitHub\NETLock\AdminPanel\obj\Debug\AdminPanel.csprojResolveAssemblyReference.cache
+C:\Users\Avery\Documents\GitHub\NETLock\AdminPanel\obj\Debug\AdminPanel.Properties.Resources.resources
+C:\Users\Avery\Documents\GitHub\NETLock\AdminPanel\obj\Debug\AdminPanel.csproj.GenerateResource.Cache
+C:\Users\Avery\Documents\GitHub\NETLock\AdminPanel\obj\Debug\AdminPanel.csproj.CoreCompileInputs.cache
+C:\Users\Avery\Documents\GitHub\NETLock\AdminPanel\obj\Debug\AdminPanel.exe
+C:\Users\Avery\Documents\GitHub\NETLock\AdminPanel\obj\Debug\AdminPanel.pdb
+C:\Users\Avery\Documents\GitHub\NETLock\AdminPanel\obj\Debug\AdminPanel.AdminMainForm.resources
+C:\Users\Avery\Documents\GitHub\NETLock\AdminPanel\obj\Debug\AdminPanel.AppVersionandUpdateForm.resources
