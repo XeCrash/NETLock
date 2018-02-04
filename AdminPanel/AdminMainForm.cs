@@ -157,7 +157,7 @@ namespace AdminPanel
             {
                 if (cm.OpenConnection())
                 {
-                    string GetAllUsers = $"SELECT `id`, `uid`, `online`, `isbanned` FROM users";
+                    string GetAllUsers = $"SELECT `id`, `uid`, `online`, `isbanned`, `ipaddr` FROM users";
                     MySqlCommand cmd = new MySqlCommand(GetAllUsers, cm.conn);
                     MySqlDataReader reader = cmd.ExecuteReader();
                     listView1.Items.Clear();
@@ -168,6 +168,7 @@ namespace AdminPanel
                         string username = reader["uid"].ToString();
                         string Online = reader["online"].ToString();
                         string Banned = reader["isbanned"].ToString();
+                        string Ipaddr = reader["ipaddr"].ToString();
                         items.Text = id;
                         items.SubItems.Add(username);
                         if (Online == "true")
@@ -179,6 +180,7 @@ namespace AdminPanel
                             items.SubItems.Add(Online.Replace("false", "Offline"));
                         }
                         items.SubItems.Add(Banned);
+                        items.SubItems.Add(Ipaddr);
                         listView1.Items.Add(items);
                     }
                     if (!reader.Read())
@@ -210,7 +212,7 @@ namespace AdminPanel
             {
                 if (cm.OpenConnection())
                 {
-                    string GetAllUsers = $"SELECT `id`, `uid`, `online`, `isbanned` FROM users";
+                    string GetAllUsers = $"SELECT `id`, `uid`, `online`, `isbanned`, `ipaddr` FROM users";
                     MySqlCommand cmd = new MySqlCommand(GetAllUsers, cm.conn);
                     MySqlDataReader reader = cmd.ExecuteReader();
                     listView1.Items.Clear();
@@ -221,12 +223,14 @@ namespace AdminPanel
                         string username = reader["uid"].ToString();
                         string Online = reader["online"].ToString();
                         string Banned = reader["isbanned"].ToString();
+                        string Ipaddr = reader["ipaddr"].ToString();
                         if (Online == "true")
                         {
                             items.Text = id;
                             items.SubItems.Add(username);
                             items.SubItems.Add(Online.Replace("true", "Online"));
                             items.SubItems.Add(Banned);
+                            items.SubItems.Add(Ipaddr);
                         }
                         listView1.Items.Add(items);
                     }
@@ -259,7 +263,7 @@ namespace AdminPanel
             {
                 if (cm.OpenConnection())
                 {
-                    string GetAllUsers = $"SELECT `id`, `uid`, `online`, `isbanned` FROM users";
+                    string GetAllUsers = $"SELECT `id`, `uid`, `online`, `isbanned`, `ipaddr` FROM users";
                     MySqlCommand cmd = new MySqlCommand(GetAllUsers, cm.conn);
                     MySqlDataReader reader = cmd.ExecuteReader();
                     listView1.Items.Clear();
@@ -270,12 +274,14 @@ namespace AdminPanel
                         string username = reader["uid"].ToString();
                         string Online = reader["online"].ToString();
                         string Banned = reader["isbanned"].ToString();
+                        string Ipaddr = reader["ipaddr"].ToString();
                         if (reader["online"].ToString() == "false")
                         {
                             items.Text = id;
                             items.SubItems.Add(username);
                             items.SubItems.Add(Online.Replace("false", "Offline"));
                             items.SubItems.Add(Banned);
+                            items.SubItems.Add(Ipaddr);
                         }
                         listView1.Items.Add(items);
                     }
@@ -631,7 +637,7 @@ namespace AdminPanel
                 {
                     if (cm.OpenConnection())
                     {
-                        string InsertLicenseToDB = $"INSERT INTO licenses(license, isredeemed) VALUES('{License}', 'false')";
+                        string InsertLicenseToDB = $"INSERT INTO licenses(uid, license, isredeemed) VALUES('', '{License}', 'false')";
                         MySqlCommand cmd = new MySqlCommand(InsertLicenseToDB, cm.conn);
                         cmd.ExecuteNonQuery();
                         Properties.Settings.Default.License = License;

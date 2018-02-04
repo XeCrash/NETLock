@@ -87,6 +87,7 @@
             this.btn_HWIDCheck = new System.Windows.Forms.Button();
             this.btn_freemode = new System.Windows.Forms.Button();
             this.button12 = new System.Windows.Forms.Button();
+            this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage4.SuspendLayout();
@@ -323,7 +324,8 @@
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3,
-            this.columnHeader4});
+            this.columnHeader4,
+            this.columnHeader8});
             this.listView1.ContextMenuStrip = this.contextMenuStrip1;
             this.listView1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listView1.FullRowSelect = true;
@@ -343,7 +345,7 @@
             // columnHeader2
             // 
             this.columnHeader2.Text = "User";
-            this.columnHeader2.Width = 485;
+            this.columnHeader2.Width = 373;
             // 
             // columnHeader3
             // 
@@ -660,6 +662,11 @@
             this.button12.UseVisualStyleBackColor = true;
             this.button12.Click += new System.EventHandler(this.button12_Click);
             // 
+            // columnHeader8
+            // 
+            this.columnHeader8.Text = "IP Address";
+            this.columnHeader8.Width = 110;
+            // 
             // AdminMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -749,6 +756,7 @@
         private System.Windows.Forms.Button btn_freemode;
         private System.Windows.Forms.Button button12;
         private System.Windows.Forms.Button btn_MaintenanceMode;
+        private System.Windows.Forms.ColumnHeader columnHeader8;
     }
 }
 

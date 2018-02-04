@@ -23,15 +23,10 @@ namespace NETLock
         - Twitter: @XeCrashDev
         - Discord: XeCrash#1389
 
-        THIS UPDATE: (+ = added | - = removed)
-        + Maintenance mode
-        + Free Mode
-        + HWID Check toggle
-        + Auto Updating using the database (See example applications on how to use)
-        + Updates to the database file
-        + Lots of core changes to login and register to support the new features
-        + Admin panel has been updated to support new features as well.
-        + Some bug and preformance fixes
+        THIS UPDATE: (+ = added | - = removed | x = bug fixs)
+        x Fixed problem with license generation
+        + IP address storage for registered users in the database
+        + Admin panel will now show IP address under User Info tab
 
         TODO:
         - Refactor Messy Code. It's pretty messy but it works!
@@ -826,7 +821,7 @@ namespace NETLock
             {
                 if (cm.OpenConnection())
                 {
-                    string sql = $"INSERT INTO users(uid, pwd, registered, lastlogin, online, isbanned, hwid) VALUES('{username}', '{password}', '{datetime()}', '00/00/0000 00:00:00 UTC', 'false', 'false', '{HWID()}')";
+                    string sql = $"INSERT INTO users(uid, pwd, registered, lastlogin, online, isbanned, hwid, ipaddr) VALUES('{username}', '{password}', '{datetime()}', '00/00/0000 00:00:00 UTC', 'false', 'false', '{HWID()}', '{ipaddr()}')";
                     MySqlCommand cmd = new MySqlCommand(sql, cm.conn);
                     cmd.ExecuteNonQuery();
                     cm.CloseConnection();
@@ -843,6 +838,12 @@ namespace NETLock
                 cm.CloseConnection();
                 return false;
             }
+        }
+
+        public string ipaddr()
+        {
+            var ip = new WebClient().DownloadString("https://canihazip.com/s");
+            return ip;
         }
 
         public string HWID()

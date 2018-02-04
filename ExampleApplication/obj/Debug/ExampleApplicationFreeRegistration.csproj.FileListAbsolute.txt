@@ -29,4 +29,4 @@ C:\Users\Avery\Documents\GitHub\NETLock\ExampleApplication\obj\Debug\ExampleAppl
 C:\Users\Avery\Documents\GitHub\NETLock\ExampleApplication\obj\Debug\ExampleApplicationFreeRegistration.csproj.CoreCompileInputs.cache
 C:\Users\Avery\Documents\GitHub\NETLock\ExampleApplication\obj\Debug\ExampleApplication.exe
 C:\Users\Avery\Documents\GitHub\NETLock\ExampleApplication\obj\Debug\ExampleApplication.pdb
-C:\Users\Avery\Documents\GitHub\NETLock\ExampleApplication\bin\Debug\MySql.Data.xml
+C:\Users\Avery\Documents\GitHub\NETLock\ExampleApplication\bin\Debug\NETLock.dll
