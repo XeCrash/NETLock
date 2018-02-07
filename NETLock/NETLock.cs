@@ -16,7 +16,7 @@ namespace NETLock
 {
 
     /*
-                               Version 3.2
+                               Version 3.2.2
         ++++++++++++++++++++++++++ NETLock +++++++++++++++++++++++++++
         =Social Media/Contact Inforamtion & Orginal Github link!=
         - Check out orginal code at https://github.com/XeCrash/NETLock
@@ -24,9 +24,7 @@ namespace NETLock
         - Discord: XeCrash#1389
 
         THIS UPDATE: (+ = added | - = removed | x = bug fixs)
-        x Fixed problem with license generation
-        + IP address storage for registered users in the database
-        + Admin panel will now show IP address under User Info tab
+        + IP is logged at registration and now is also logged again everytime in a new column at login
 
         TODO:
         - Refactor Messy Code. It's pretty messy but it works!
@@ -759,7 +757,7 @@ namespace NETLock
             {
                 if (cm.OpenConnection())
                 {
-                    string UpdateStatus = $"UPDATE `users` SET `online` = 'true', `lastlogin` = '{datetime()}' WHERE `users`.`uid` = '{username}'";
+                    string UpdateStatus = $"UPDATE `users` SET `online` = 'true', `lastlogin` = '{datetime()}', `lastloggedipaddr` = '{ipaddr()}' WHERE `users`.`uid` = '{username}'";
                     MySqlCommand cmd = new MySqlCommand(UpdateStatus, cm.conn);
                     cmd.ExecuteNonQuery();
                     cm.CloseConnection();
@@ -782,6 +780,12 @@ namespace NETLock
         {
             var time = DateTime.UtcNow;
             return Convert.ToString(time + " UTC");
+        }
+
+        public string ipaddr()
+        {
+            var ip = new WebClient().DownloadString("https://canihazip.com/s");
+            return ip;
         }
     }
 
@@ -821,7 +825,7 @@ namespace NETLock
             {
                 if (cm.OpenConnection())
                 {
-                    string sql = $"INSERT INTO users(uid, pwd, registered, lastlogin, online, isbanned, hwid, ipaddr) VALUES('{username}', '{password}', '{datetime()}', '00/00/0000 00:00:00 UTC', 'false', 'false', '{HWID()}', '{ipaddr()}')";
+                    string sql = $"INSERT INTO users(uid, pwd, registered, lastlogin, online, isbanned, hwid, ipaddr, lastloggedipaddr) VALUES('{username}', '{password}', '{datetime()}', '00/00/0000 00:00:00 UTC', 'false', 'false', '{HWID()}', '{ipaddr()}', '{ipaddr()}')";
                     MySqlCommand cmd = new MySqlCommand(sql, cm.conn);
                     cmd.ExecuteNonQuery();
                     cm.CloseConnection();

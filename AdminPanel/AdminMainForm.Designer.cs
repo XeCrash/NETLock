@@ -54,6 +54,7 @@
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.userFunctionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteSelectedUserToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -87,7 +88,7 @@
             this.btn_HWIDCheck = new System.Windows.Forms.Button();
             this.btn_freemode = new System.Windows.Forms.Button();
             this.button12 = new System.Windows.Forms.Button();
-            this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage4.SuspendLayout();
@@ -325,7 +326,8 @@
             this.columnHeader2,
             this.columnHeader3,
             this.columnHeader4,
-            this.columnHeader8});
+            this.columnHeader8,
+            this.columnHeader9});
             this.listView1.ContextMenuStrip = this.contextMenuStrip1;
             this.listView1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listView1.FullRowSelect = true;
@@ -345,7 +347,7 @@
             // columnHeader2
             // 
             this.columnHeader2.Text = "User";
-            this.columnHeader2.Width = 373;
+            this.columnHeader2.Width = 241;
             // 
             // columnHeader3
             // 
@@ -356,6 +358,11 @@
             // 
             this.columnHeader4.Text = "Ban Status";
             this.columnHeader4.Width = 101;
+            // 
+            // columnHeader8
+            // 
+            this.columnHeader8.Text = "Registered IP";
+            this.columnHeader8.Width = 110;
             // 
             // contextMenuStrip1
             // 
@@ -662,10 +669,10 @@
             this.button12.UseVisualStyleBackColor = true;
             this.button12.Click += new System.EventHandler(this.button12_Click);
             // 
-            // columnHeader8
+            // columnHeader9
             // 
-            this.columnHeader8.Text = "IP Address";
-            this.columnHeader8.Width = 110;
+            this.columnHeader9.Text = "Last IP Logged";
+            this.columnHeader9.Width = 113;
             // 
             // AdminMainForm
             // 
@@ -757,6 +764,7 @@
         private System.Windows.Forms.Button button12;
         private System.Windows.Forms.Button btn_MaintenanceMode;
         private System.Windows.Forms.ColumnHeader columnHeader8;
+        private System.Windows.Forms.ColumnHeader columnHeader9;
     }
 }
 

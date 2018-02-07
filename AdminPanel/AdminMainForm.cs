@@ -157,7 +157,7 @@ namespace AdminPanel
             {
                 if (cm.OpenConnection())
                 {
-                    string GetAllUsers = $"SELECT `id`, `uid`, `online`, `isbanned`, `ipaddr` FROM users";
+                    string GetAllUsers = $"SELECT `id`, `uid`, `online`, `isbanned`, `ipaddr`, `lastloggedipaddr` FROM users";
                     MySqlCommand cmd = new MySqlCommand(GetAllUsers, cm.conn);
                     MySqlDataReader reader = cmd.ExecuteReader();
                     listView1.Items.Clear();
@@ -169,6 +169,7 @@ namespace AdminPanel
                         string Online = reader["online"].ToString();
                         string Banned = reader["isbanned"].ToString();
                         string Ipaddr = reader["ipaddr"].ToString();
+                        string lastloggedip = reader["lastloggedipaddr"].ToString();
                         items.Text = id;
                         items.SubItems.Add(username);
                         if (Online == "true")
@@ -181,6 +182,7 @@ namespace AdminPanel
                         }
                         items.SubItems.Add(Banned);
                         items.SubItems.Add(Ipaddr);
+                        items.SubItems.Add(lastloggedip);
                         listView1.Items.Add(items);
                     }
                     if (!reader.Read())
@@ -212,7 +214,7 @@ namespace AdminPanel
             {
                 if (cm.OpenConnection())
                 {
-                    string GetAllUsers = $"SELECT `id`, `uid`, `online`, `isbanned`, `ipaddr` FROM users";
+                    string GetAllUsers = $"SELECT `id`, `uid`, `online`, `isbanned`, `ipaddr`, `lastloggedipaddr` FROM users";
                     MySqlCommand cmd = new MySqlCommand(GetAllUsers, cm.conn);
                     MySqlDataReader reader = cmd.ExecuteReader();
                     listView1.Items.Clear();
@@ -224,6 +226,7 @@ namespace AdminPanel
                         string Online = reader["online"].ToString();
                         string Banned = reader["isbanned"].ToString();
                         string Ipaddr = reader["ipaddr"].ToString();
+                        string lastloggedip = reader["lastloggedipaddr"].ToString();
                         if (Online == "true")
                         {
                             items.Text = id;
@@ -231,6 +234,7 @@ namespace AdminPanel
                             items.SubItems.Add(Online.Replace("true", "Online"));
                             items.SubItems.Add(Banned);
                             items.SubItems.Add(Ipaddr);
+                            items.SubItems.Add(lastloggedip);
                         }
                         listView1.Items.Add(items);
                     }
@@ -263,7 +267,7 @@ namespace AdminPanel
             {
                 if (cm.OpenConnection())
                 {
-                    string GetAllUsers = $"SELECT `id`, `uid`, `online`, `isbanned`, `ipaddr` FROM users";
+                    string GetAllUsers = $"SELECT `id`, `uid`, `online`, `isbanned`, `ipaddr`, `lastloggedipaddr` FROM users";
                     MySqlCommand cmd = new MySqlCommand(GetAllUsers, cm.conn);
                     MySqlDataReader reader = cmd.ExecuteReader();
                     listView1.Items.Clear();
@@ -275,6 +279,7 @@ namespace AdminPanel
                         string Online = reader["online"].ToString();
                         string Banned = reader["isbanned"].ToString();
                         string Ipaddr = reader["ipaddr"].ToString();
+                        string lastloggedip = reader["lastloggedipaddr"].ToString();
                         if (reader["online"].ToString() == "false")
                         {
                             items.Text = id;
@@ -282,6 +287,7 @@ namespace AdminPanel
                             items.SubItems.Add(Online.Replace("false", "Offline"));
                             items.SubItems.Add(Banned);
                             items.SubItems.Add(Ipaddr);
+                            items.SubItems.Add(lastloggedip);
                         }
                         listView1.Items.Add(items);
                     }
