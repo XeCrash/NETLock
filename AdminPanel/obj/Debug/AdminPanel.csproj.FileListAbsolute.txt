@@ -19,3 +19,4 @@ C:\Users\Avery\Documents\GitHub\NETLock\AdminPanel\obj\Debug\AdminPanel.exe
 C:\Users\Avery\Documents\GitHub\NETLock\AdminPanel\obj\Debug\AdminPanel.pdb
 C:\Users\Avery\Documents\GitHub\NETLock\AdminPanel\obj\Debug\AdminPanel.AdminMainForm.resources
 C:\Users\Avery\Documents\GitHub\NETLock\AdminPanel\obj\Debug\AdminPanel.AppVersionandUpdateForm.resources
+C:\Users\Avery\Documents\GitHub\NETLock\AdminPanel\obj\Debug\AdminPanel.csprojResolveAssemblyReference.cache

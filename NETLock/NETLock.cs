@@ -16,15 +16,15 @@ namespace NETLock
 {
 
     /*
-                               Version 3.2.2
+                               Version 3.2.3
         ++++++++++++++++++++++++++ NETLock +++++++++++++++++++++++++++
         =Social Media/Contact Inforamtion & Orginal Github link!=
         - Check out orginal code at https://github.com/XeCrash/NETLock
         - Twitter: @XeCrashDev
         - Discord: XeCrash#1389
 
-        THIS UPDATE: (+ = added | - = removed | x = bug fixs)
-        + IP is logged at registration and now is also logged again everytime in a new column at login
+        THIS UPDATE: (+ = added | - = removed | x = bug fix's)
+        x - Fixed a bug where, if you had maintenance mode and free mode activated at the same time you could still login.
 
         TODO:
         - Refactor Messy Code. It's pretty messy but it works!
@@ -32,7 +32,7 @@ namespace NETLock
 
         HELP:
         - If you want to look at the example application that would be the best way to figure it out!
-        - I'll be making a tutorial video on how to set it up Version 3.2 soon!
+        - I'll be making a tutorial video on how to set it up Version 3.2.3 soon!
 
         COMING SOON:
         - Account level system. (1 - 7) (Not yet added this update)
@@ -194,12 +194,14 @@ namespace NETLock
         {
             if (!lm.isMaintenanceMode())
             {
-                CurrentFormToHide.Close();
+                MessageBox.Show("The current application is in Free Mode. Have fun!");
                 FormToLoad.Show();
+                CurrentFormToHide.Hide();
             }
             else
             {
                 MessageBox.Show("The current application is in Free Mode but is down for maintenance right now. Please check back later");
+                CurrentFormToHide.Close();
             }
         }
     }

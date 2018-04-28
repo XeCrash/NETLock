@@ -22,7 +22,7 @@ namespace ExampleApplication
         private void LoginForm_Shown(object sender, EventArgs e)
         {
             AuthResponse response = new AuthResponse();
-            if (response.AuthenticateProgram("9FU4y9OI9y75CyWDOPqZex8TK")) //Change to match the Auth token you generate to use without error.
+            if (response.AuthenticateProgram("SHqMEAi6KDTi1H=Hcr$E9E#UQ")) //Change to match the Auth token you generate to use without error.
             {
                 if (response.FreeModeActive) //This is only if you wish to have free mode implemented in your application
                 {
