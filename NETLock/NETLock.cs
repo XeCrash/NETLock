@@ -21,7 +21,7 @@ namespace NETLock
         =Social Media/Contact Inforamtion & Orginal Github link!=
         - Check out orginal code at https://github.com/XeCrash/NETLock
         - Twitter: @XeCrashDev
-        - Discord: XeCrash#1389
+        - Discord: Bitwise#1337
 
         THIS UPDATE: (+ = added | - = removed | x = bug fix's)
         x - Fixed a bug where, if you had maintenance mode and free mode activated at the same time you could still login.
