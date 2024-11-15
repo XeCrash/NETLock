@@ -30,7 +30,7 @@ namespace ExampleApplicationPaidRegistration
             }
             else
             {
-                MessageBox.Show(register.info, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(register.Info, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

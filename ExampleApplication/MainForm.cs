@@ -53,7 +53,7 @@ namespace NETLock
             }
             else
             {
-                MessageBox.Show(lr.info);
+                MessageBox.Show(lr.Info);
                 Process.GetCurrentProcess().Kill();
             }
         }

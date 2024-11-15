@@ -1,15 +1,24 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NETLock", "NETLock\NETLock.csproj", "{1B557FAE-88D6-4AB5-A91D-3E74258C0670}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApplicationFreeRegistration", "ExampleApplication\ExampleApplicationFreeRegistration.csproj", "{CE9FD2AE-65F6-4DC5-876C-9DFE47443941}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1B557FAE-88D6-4AB5-A91D-3E74258C0670} = {1B557FAE-88D6-4AB5-A91D-3E74258C0670}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminPanel", "AdminPanel\AdminPanel.csproj", "{3E8FF649-F384-48FA-85D2-3A97A9E53428}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1B557FAE-88D6-4AB5-A91D-3E74258C0670} = {1B557FAE-88D6-4AB5-A91D-3E74258C0670}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApplicationPaidRegistration", "ExampleApplicationPaidRegistration\ExampleApplicationPaidRegistration.csproj", "{27277544-CDB1-4642-9273-FF75993D5F11}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1B557FAE-88D6-4AB5-A91D-3E74258C0670} = {1B557FAE-88D6-4AB5-A91D-3E74258C0670}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InnerLock.cs File and Tut", "InnerLock.cs File and Tut", "{7BB6FDBA-EDE7-45E9-B56E-3EDE2419446B}"
 	ProjectSection(SolutionItems) = preProject

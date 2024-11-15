@@ -30,3 +30,19 @@ C:\Users\Avery\Documents\GitHub\NETLock\ExampleApplication\obj\Debug\ExampleAppl
 C:\Users\Avery\Documents\GitHub\NETLock\ExampleApplication\obj\Debug\ExampleApplication.exe
 C:\Users\Avery\Documents\GitHub\NETLock\ExampleApplication\obj\Debug\ExampleApplication.pdb
 C:\Users\Avery\Documents\GitHub\NETLock\ExampleApplication\bin\Debug\NETLock.dll
+E:\Old Projects\NETLock\ExampleApplication\bin\Debug\ExampleApplication.exe.config
+E:\Old Projects\NETLock\ExampleApplication\bin\Debug\ExampleApplication.exe
+E:\Old Projects\NETLock\ExampleApplication\bin\Debug\ExampleApplication.pdb
+E:\Old Projects\NETLock\ExampleApplication\bin\Debug\MySql.Data.dll
+E:\Old Projects\NETLock\ExampleApplication\bin\Debug\NETLock.pdb
+E:\Old Projects\NETLock\ExampleApplication\bin\Debug\NETLock.dll.config
+E:\Old Projects\NETLock\ExampleApplication\obj\Debug\ExampleApplicationFreeRegistration.csproj.AssemblyReference.cache
+E:\Old Projects\NETLock\ExampleApplication\obj\Debug\ExampleApplication.LoginForm.resources
+E:\Old Projects\NETLock\ExampleApplication\obj\Debug\NETLock.MainForm.resources
+E:\Old Projects\NETLock\ExampleApplication\obj\Debug\ExampleApplication.Properties.Resources.resources
+E:\Old Projects\NETLock\ExampleApplication\obj\Debug\ExampleApplication.RegistrationForm.resources
+E:\Old Projects\NETLock\ExampleApplication\obj\Debug\ExampleApplicationFreeRegistration.csproj.GenerateResource.cache
+E:\Old Projects\NETLock\ExampleApplication\obj\Debug\ExampleApplicationFreeRegistration.csproj.CoreCompileInputs.cache
+E:\Old Projects\NETLock\ExampleApplication\obj\Debug\ExampleA.2DFFB7AD.Up2Date
+E:\Old Projects\NETLock\ExampleApplication\obj\Debug\ExampleApplication.exe
+E:\Old Projects\NETLock\ExampleApplication\obj\Debug\ExampleApplication.pdb

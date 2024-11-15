@@ -46,7 +46,7 @@ namespace ExampleApplication
             }
             else
             {
-                MessageBox.Show(register.info);
+                MessageBox.Show(register.Info);
             }
         }
     }

@@ -20,3 +20,15 @@ C:\Users\Avery\Documents\GitHub\NETLock\AdminPanel\obj\Debug\AdminPanel.pdb
 C:\Users\Avery\Documents\GitHub\NETLock\AdminPanel\obj\Debug\AdminPanel.AdminMainForm.resources
 C:\Users\Avery\Documents\GitHub\NETLock\AdminPanel\obj\Debug\AdminPanel.AppVersionandUpdateForm.resources
 C:\Users\Avery\Documents\GitHub\NETLock\AdminPanel\obj\Debug\AdminPanel.csprojResolveAssemblyReference.cache
+E:\Old Projects\NETLock\AdminPanel\bin\Debug\AdminPanel.exe.config
+E:\Old Projects\NETLock\AdminPanel\bin\Debug\AdminPanel.exe
+E:\Old Projects\NETLock\AdminPanel\bin\Debug\AdminPanel.pdb
+E:\Old Projects\NETLock\AdminPanel\obj\Debug\AdminPanel.csproj.AssemblyReference.cache
+E:\Old Projects\NETLock\AdminPanel\obj\Debug\AdminPanel.AdminMainForm.resources
+E:\Old Projects\NETLock\AdminPanel\obj\Debug\AdminPanel.AppVersionandUpdateForm.resources
+E:\Old Projects\NETLock\AdminPanel\obj\Debug\AdminPanel.Properties.Resources.resources
+E:\Old Projects\NETLock\AdminPanel\obj\Debug\AdminPanel.csproj.GenerateResource.cache
+E:\Old Projects\NETLock\AdminPanel\obj\Debug\AdminPanel.csproj.CoreCompileInputs.cache
+E:\Old Projects\NETLock\AdminPanel\obj\Debug\AdminPanel.csproj.Up2Date
+E:\Old Projects\NETLock\AdminPanel\obj\Debug\AdminPanel.exe
+E:\Old Projects\NETLock\AdminPanel\obj\Debug\AdminPanel.pdb
