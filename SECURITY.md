@@ -44,8 +44,4 @@ Other recommendations
 
 Responsible disclosure
 - If someone finds a security issue in this codebase, please open a private GitHub issue or contact the repo owner. Provide reproduction steps, environment, and suggested mitigation.
-
-If you want, I can:
-- produce a PR that replaces string-concatenated SQL with parameterized queries in the key methods,
-- extract the connection string to config and demonstrate secure patterns,
-- add a small set of unit tests for the Authentication and Encryption methods.
+- 
